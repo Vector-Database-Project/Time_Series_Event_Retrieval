@@ -1,0 +1,145 @@
+:root {
+  --bg: #0b0f14;
+  --panel: #121821;
+  --panel-2: #18202b;
+  --text: #e6edf3;
+  --muted: #9fb0c3;
+  --border: #263241;
+  --accent: #7cc0ff;
+  --accent-soft: rgba(124, 192, 255, 0.12);
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(180deg, #0b0f14 0%, #0e131a 100%);
+  color: var(--text);
+  font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
+  line-height: 1.7;
+}
+
+.page-shell {
+  width: min(1000px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 48px 0 64px;
+}
+
+.site-header {
+  margin-bottom: 28px;
+  padding: 28px;
+  background: linear-gradient(180deg, rgba(24, 32, 43, 0.9), rgba(18, 24, 33, 0.95));
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: var(--accent);
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.site-header h1 {
+  margin: 0 0 10px;
+  font-size: clamp(2rem, 3vw, 3rem);
+  line-height: 1.15;
+}
+
+.subtitle {
+  margin: 0;
+  color: var(--muted);
+  max-width: 750px;
+}
+
+.content-stack {
+  display: grid;
+  gap: 20px;
+}
+
+.section-wrapper > section,
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 26px 28px;
+  box-shadow: var(--shadow);
+}
+
+h2 {
+  margin-top: 0;
+  margin-bottom: 14px;
+  font-size: 1.4rem;
+  color: var(--text);
+}
+
+h3 {
+  margin-top: 22px;
+  margin-bottom: 10px;
+  color: var(--text);
+}
+
+p {
+  margin: 0 0 14px;
+  color: var(--text);
+}
+
+p:last-child {
+  margin-bottom: 0;
+}
+
+ul,
+ol {
+  margin: 0 0 14px 22px;
+  color: var(--text);
+}
+
+li {
+  margin-bottom: 8px;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+code {
+  font-family: Consolas, "Courier New", monospace;
+  background: var(--accent-soft);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 2px 6px;
+  color: var(--text);
+}
+
+strong {
+  color: #f4f8fc;
+}
+
+@media (max-width: 700px) {
+  .page-shell {
+    width: min(1000px, calc(100% - 20px));
+    padding: 24px 0 40px;
+  }
+
+  .site-header,
+  .section-wrapper > section,
+  .card {
+    padding: 20px;
+    border-radius: 14px;
+  }
+}
