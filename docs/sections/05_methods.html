@@ -1,0 +1,12 @@
+<section id="methods">
+  <h2>Methodology</h2>
+  <p>
+    We convert each dataset into fixed-duration windows with a shared metadata schema (domain, source or sequence ID for
+    leakage-aware splits, optional labels and conditions) and perform source-level splits to avoid leakage. We then compare
+    retrieval performance across a controlled ablation of representation views (time windows, frequency features from FFT or
+    STFT, and mixed time–frequency) and embedding approaches (self-supervised TS2Vec, supervised embeddings from InceptionTime,
+    and a non-learning engineered feature baseline using tsfresh). All configurations are evaluated under a common retrieval
+    protocol using vector-database similarity search, and we report cross-domain trends plus recommendations on combinations
+    that preserve event similarity and transfer reliably.
+  </p>
+</section>

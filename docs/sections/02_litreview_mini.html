@@ -1,0 +1,59 @@
+<section id="lit-review">
+  <h2>Literature Review and Research Gap</h2>
+
+  <p>
+    Similar-event retrieval is common in sensor streams (maintenance vibration, IMU, ECG), often under metadata filters,
+    so outcomes depend on embeddings plus indexing and filtered execution behavior.
+  </p>
+
+  <p><strong>Time-series embeddings and representation learning.</strong></p>
+
+  <p>
+    Time-series representation learning has shifted toward reusable embeddings. TS2Vec uses hierarchical contrastive learning
+    and performs strongly across benchmarks, supporting general-purpose encoders for similarity search
+    <a href="#ref-1" class="citation">[1]</a>.
+    TNC adds an unsupervised objective based on local neighborhood consistency under stationarity assumptions, relevant under drift
+    <a href="#ref-2" class="citation">[2]</a>.
+    CPC motivates predictive, self-supervised objectives for sequence embeddings across modalities
+    <a href="#ref-3" class="citation">[3]</a>.
+    These results support self-supervised embeddings, but do not resolve which representation views transfer reliably across domains.
+  </p>
+
+  <p><strong>Supervised models and non-learning baselines.</strong></p>
+
+  <p>
+    Strong baselines are needed to separate representation gains from modeling and feature engineering. InceptionTime provides a scalable
+    supervised reference, and penultimate-layer vectors can serve as supervised embeddings when labels exist
+    <a href="#ref-4" class="citation">[4]</a>.
+    tsfresh offers engineered descriptors that remain competitive and help anchor comparisons
+    <a href="#ref-5" class="citation">[5]</a>.
+    DTW remains a canonical alignment similarity reference despite cost at scale
+    <a href="#ref-6" class="citation">[6]</a>.
+  </p>
+
+  <p><strong>Vector search, indexing, and filtered retrieval behavior.</strong></p>
+
+  <p>
+    Large-scale retrieval typically relies on ANN, where index design and constraints can dominate results. HNSW provides strong practical
+    recall-latency tradeoffs in memory
+    <a href="#ref-7" class="citation">[7]</a>,
+    while DiskANN extends ANN to large regimes with SSD-aware designs
+    <a href="#ref-8" class="citation">[8]</a>.
+    Faiss offers a broad indexing taxonomy for controlled comparisons
+    <a href="#ref-9" class="citation">[9]</a>,
+    and Milvus highlights system concerns such as updates, distributed execution, and hybrid queries
+    <a href="#ref-10" class="citation">[10]</a>.
+    Filtered ANN analysis shows metadata selectivity can substantially change retrieval behavior and conclusions
+    <a href="#ref-11" class="citation">[11]</a>.
+  </p>
+
+  <p><strong>Research gap.</strong></p>
+
+  <p>
+    A gap remains between algorithm-centric results and deployable cross-domain methodology. Many studies optimize one representation on one
+    dataset, or benchmark embeddings without jointly controlling representation view, embedding strategy, and index behavior under filtered
+    workloads. Few works systematically evaluate time-domain, frequency-domain, and fused time-frequency views across supervised, self-supervised,
+    and non-learning approaches, while holding a common retrieval protocol and ANN setup across multiple domains. We address this with a compact,
+    controlled evaluation framework that yields guidance on encoding and retrieval policies that transfer reliably.
+  </p>
+</section>

@@ -173,6 +173,56 @@ strong {
   margin-bottom: 14px;
 }
 
+/* =========================
+   Timeline (Gantt chart)
+   ========================= */
+
+/* Wrapper figure for the Gantt chart image and caption */
+.timeline-figure {
+  margin: 0;
+}
+
+/* Make the Gantt chart image responsive and visually clean */
+.timeline-figure img {
+  max-width: 100%;        /* scales down to fit the page width */
+  height: auto;           /* preserves aspect ratio */
+  display: block;         /* removes inline-image spacing */
+  border: 1px solid #ddd; /* subtle border to separate from background */
+  border-radius: 8px;     /* rounded corners for a softer look */
+}
+
+/* Optional spacing for the caption under the image */
+.timeline-figure figcaption {
+  margin-top: 8px;
+  font-size: 0.95rem;
+  opacity: 0.85;
+}
+
+/* =========================
+   Contribution Table
+   ========================= */
+
+/* Basic table layout and spacing */
+.contrib-table {
+  width: 100%;                 /* full width table */
+  border-collapse: collapse;   /* single borders instead of doubled lines */
+  margin-top: 10px;            /* space above table */
+}
+
+/* Cell styling for both header and body cells */
+.contrib-table th,
+.contrib-table td {
+  border: 1px solid #ddd;  /* light grid lines */
+  padding: 10px;           /* breathing room inside cells */
+  vertical-align: top;     /* align multi-line text to the top */
+  text-align: left;        /* readable alignment for names and text */
+}
+
+/* Header emphasis */
+.contrib-table th {
+  font-weight: 600;
+}
+
 /* Adjust spacing and card size for smaller screens like phones */
 @media (max-width: 700px) {
   .page-shell {

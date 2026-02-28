@@ -1,22 +1,12 @@
 <section id="overview">
     <h2>Overview</h2>
     <p>
-    Time-series data appears in many domains where signals evolve continuously over time,
-    such as seismic monitoring, physiological sensing, and industrial systems. In many of
-    these settings, the task is not only to classify or predict future behavior, but also
-    to retrieve past events that are similar to a given query event. This project studies
-    event retrieval in time-series data using vector representations, where temporal signal
-    segments are converted into embeddings and indexed for similarity search.
-    </p>
-    <p>
-    The project uses curated data from EarthScope/IRIS, PhysioNet, and the UCR Time Series
-    Classification Archive. These sources provide organized collections of time-evolving
-    signals with meaningful temporal structure and, in many cases, event-centered or labeled
-    segments. A central part of this work is the comparison of different signal representations,
-    including raw time-domain windows, frequency-domain representations derived from transforms
-    such as FFT and STFT, and mixed time-frequency views. By studying how these representations
-    interact with different embedding approaches across multiple domains, the goal is to identify
-    which choices produce the most effective event retrieval behavior and which combinations are
-    most suitable as a general retrieval policy.
+    Time-series signals appear across domains such as seismic monitoring, physiological sensing, and 
+    industrial systems, and many applications need event retrieval, not just classification or 
+    forecasting. In this project we convert fixed time segments into vector embeddings, index them 
+    for similarity search, and compare retrieval quality across curated datasets from EarthScope/IRIS, 
+    PhysioNet, and the UCR Time Series Classification Archive. We evaluate how signal representations, 
+    raw time windows, frequency features from FFT or STFT, and mixed time-frequency views, interact with 
+    different embedding approaches across domains, aiming to identify combinations that yield strong, transferable retrieval behavior.
     </p>
 </section>
