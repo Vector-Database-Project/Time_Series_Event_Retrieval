@@ -1,12 +1,11 @@
 <section id="overview">
-    <h2>Overview</h2>
-    <p>
-    Time-series signals appear across domains such as seismic monitoring, physiological sensing, and 
-    industrial systems, and many applications need event retrieval, not just classification or 
-    forecasting. In this project we convert fixed time segments into vector embeddings, index them 
-    for similarity search, and compare retrieval quality across curated datasets from EarthScope/IRIS, 
-    PhysioNet, and the UCR Time Series Classification Archive. We evaluate how signal representations, 
-    raw time windows, frequency features from FFT or STFT, and mixed time-frequency views, interact with 
-    different embedding approaches across domains, aiming to identify combinations that yield strong, transferable retrieval behavior.
-    </p>
+  <h2>Overview</h2>
+  <p>
+    Time-series signals arise in seismic monitoring, physiological sensing, and industrial systems, where analysts often
+    need to retrieve past events similar to a query. We treat event retrieval as similarity search by mapping fixed windows
+    to embeddings and querying nearest neighbors in a vector database. Retrieval depends on representation before indexing,
+    raw time windows, frequency features from FFT or STFT, or mixed time–frequency views, and behavior can vary by dataset
+    and event type. We evaluate across EarthScope/IRIS, PhysioNet, and the UCR archive to identify combinations that preserve
+    event similarity and transfer across domains.
+  </p>
 </section>

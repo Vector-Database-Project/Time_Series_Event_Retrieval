@@ -7,7 +7,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   const sections = [
     "01_overview",
     "02_litreview_mini",
-    "03_problem",
     "04_datasets",
     "05_methods",
     "06_results",
