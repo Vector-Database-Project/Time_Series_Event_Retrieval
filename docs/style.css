@@ -1,3 +1,4 @@
+/* Global color palette and reusable theme values */
 :root {
   --bg: #0b0f14;
   --panel: #121821;
@@ -10,14 +11,17 @@
   --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
 }
 
+/* Make width and padding calculations more predictable everywhere */
 * {
   box-sizing: border-box;
 }
 
+/* Enable smooth scrolling when jumping to sections or references */
 html {
   scroll-behavior: smooth;
 }
 
+/* Base page appearance, background, text color, and default font */
 body {
   margin: 0;
   background: linear-gradient(180deg, #0b0f14 0%, #0e131a 100%);
@@ -26,12 +30,14 @@ body {
   line-height: 1.7;
 }
 
+/* Main wrapper that keeps the page centered and limits maximum width */
 .page-shell {
   width: min(1000px, calc(100% - 32px));
   margin: 0 auto;
   padding: 48px 0 64px;
 }
 
+/* Top banner section that contains the page title and subtitle */
 .site-header {
   margin-bottom: 28px;
   padding: 28px;
@@ -41,6 +47,7 @@ body {
   box-shadow: var(--shadow);
 }
 
+/* Small label above the title, used for course or section context */
 .eyebrow {
   margin: 0 0 8px;
   color: var(--accent);
@@ -50,23 +57,27 @@ body {
   text-transform: uppercase;
 }
 
+/* Main page title styling inside the header */
 .site-header h1 {
   margin: 0 0 10px;
   font-size: clamp(2rem, 3vw, 3rem);
   line-height: 1.15;
 }
 
+/* Subtitle text under the main title */
 .subtitle {
   margin: 0;
   color: var(--muted);
   max-width: 750px;
 }
 
+/* Vertical layout for loaded content sections with spacing between cards */
 .content-stack {
   display: grid;
   gap: 20px;
 }
 
+/* Shared card style for each content section and placeholder card */
 .section-wrapper > section,
 .card {
   background: var(--panel);
@@ -76,6 +87,7 @@ body {
   box-shadow: var(--shadow);
 }
 
+/* Main section headings like Overview, Methods, References */
 h2 {
   margin-top: 0;
   margin-bottom: 14px;
@@ -83,40 +95,48 @@ h2 {
   color: var(--text);
 }
 
+/* Smaller subsection headings inside a section */
 h3 {
   margin-top: 22px;
   margin-bottom: 10px;
   color: var(--text);
 }
 
+/* Default paragraph spacing and readable text color */
 p {
   margin: 0 0 14px;
   color: var(--text);
 }
 
+/* Remove extra bottom space on the last paragraph in a block */
 p:last-child {
   margin-bottom: 0;
 }
 
+/* Default spacing and indentation for unordered and ordered lists */
 ul,
 ol {
   margin: 0 0 14px 22px;
   color: var(--text);
 }
 
+/* Spacing between individual list items */
 li {
   margin-bottom: 8px;
 }
 
+/* General link appearance across the page */
 a {
   color: var(--accent);
   text-decoration: none;
 }
 
+/* Add underline when hovering over links for clarity */
 a:hover {
   text-decoration: underline;
 }
 
+/* Inline code styling for filenames, tags, or small code snippets */
 code {
   font-family: Consolas, "Courier New", monospace;
   background: var(--accent-soft);
@@ -126,10 +146,34 @@ code {
   color: var(--text);
 }
 
+/* Slightly brighter text for emphasized words */
 strong {
   color: #f4f8fc;
 }
 
+/* In-text citation links like [1], [2], [3] */
+.citation {
+  text-decoration: none;
+  font-weight: 600;
+  margin-left: 2px;
+}
+
+/* Show underline when hovering over citation links */
+.citation:hover {
+  text-decoration: underline;
+}
+
+/* Indentation for the references list at the bottom of the page */
+.references-list {
+  padding-left: 22px;
+}
+
+/* Extra spacing between each reference entry */
+.references-list li {
+  margin-bottom: 14px;
+}
+
+/* Adjust spacing and card size for smaller screens like phones */
 @media (max-width: 700px) {
   .page-shell {
     width: min(1000px, calc(100% - 20px));

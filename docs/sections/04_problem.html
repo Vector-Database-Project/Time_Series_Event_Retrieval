@@ -1,0 +1,26 @@
+<section id="problem">
+  <h2>Problem Definition</h2>
+  <p>
+    This project studies event retrieval in time-series data. Given a query segment
+    representing an event or meaningful temporal pattern, the goal is to retrieve
+    similar segments from a database of indexed time-series windows. Rather than
+    treating the task only as classification, the project frames it as a similarity
+    search problem in which each window is mapped to a vector representation and
+    compared against other stored events in an embedding space.
+  </p>
+  <p>
+    The main challenge is that retrieval performance depends strongly on how the
+    signal is represented before indexing. Raw time-domain windows may preserve
+    temporal shape, while frequency-domain views obtained through transforms such as
+    FFT and STFT may capture periodic or spectral structure more effectively.
+    Mixed time-frequency representations may retain complementary information from
+    both domains, but their usefulness can vary across datasets and event types.
+  </p>
+  <p>
+    To address this, the project compares multiple representation and embedding
+    strategies across curated seismic, physiological, and benchmark time-series
+    datasets. The objective is to determine which combinations best preserve event
+    similarity for retrieval, and which choices provide the most reliable generalization
+    policy for event search using vector databases.
+  </p>
+</section>

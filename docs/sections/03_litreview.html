@@ -1,0 +1,118 @@
+<section id="lit-review">
+  <h2>Literature Review and Research Gap</h2>
+
+  <p>
+    Fast retrieval of historically similar events is a recurring requirement in sensor-driven
+    systems, ranging from predictive maintenance (vibration and acoustics) to human sensing
+    (IMU) and biomedical monitoring (ECG). In these settings, analysts often query large
+    archives under metadata constraints, so retrieval quality depends not only on
+    representation quality but also on the interaction between embeddings, indexing, and
+    filtering behavior.
+  </p>
+
+  <p><strong>Time-series embeddings and representation learning.</strong></p>
+
+  <p>
+    Recent work in time-series representation learning has shifted from task-specific
+    supervised models toward reusable embeddings that transfer across datasets and tasks.
+    TS2Vec introduced hierarchical contrastive learning and demonstrated strong performance
+    across diverse benchmarks, supporting the idea that a single encoder can yield broadly
+    useful representations for heterogeneous time-series analysis and similarity search
+    <a href="#ref-1" class="citation">[1]</a>.
+  </p>
+
+  <p>
+    Temporal Neighborhood Coding (TNC) provides a related unsupervised objective based on
+    neighborhood consistency under local stationarity assumptions, which is relevant for real
+    sensor streams where distributions drift and operating regimes change
+    <a href="#ref-2" class="citation">[2]</a>.
+  </p>
+
+  <p>
+    Contrastive Predictive Coding (CPC) remains a foundational framework motivating
+    forecasting-oriented latent objectives across modalities, and it informs the broader
+    design space of self-supervised objectives for sequence embeddings
+    <a href="#ref-3" class="citation">[3]</a>.
+  </p>
+
+  <p>
+    These works motivate self-supervised embeddings as strong candidates for retrieval, but
+    they do not by themselves establish which representation choices generalize reliably
+    across domains.
+  </p>
+
+  <p><strong>Supervised models and non-learning baselines.</strong></p>
+
+  <p>
+    Robust supervised and classical baselines remain essential for retrieval studies because
+    they anchor conclusions about representation quality and transfer. InceptionTime shows
+    that modern convolutional architectures can achieve high accuracy and scalability in
+    supervised time-series classification; penultimate-layer vectors can serve as a
+    practical supervised embedding baseline when labels are available
+    <a href="#ref-4" class="citation">[4]</a>.
+  </p>
+
+  <p>
+    On the non-learning side, tsfresh provides a comprehensive library of engineered
+    time-series descriptors that are often competitive in applied settings and help separate
+    gains from representation learning versus gains from strong feature engineering
+    <a href="#ref-5" class="citation">[5]</a>.
+  </p>
+
+  <p>
+    Dynamic Time Warping (DTW) remains a canonical similarity measure for local alignment
+    and is still a relevant reference point for pattern-matching regimes, despite its
+    computational cost at scale <a href="#ref-6" class="citation">[6]</a>.
+  </p>
+
+  <p>
+    Together, these baselines provide a disciplined way to evaluate whether learned
+    embeddings offer consistent advantages across domains and representation views.
+  </p>
+
+  <p><strong>Vector search, indexing, and filtered retrieval behavior.</strong></p>
+
+  <p>
+    Large-scale retrieval typically relies on approximate nearest neighbor (ANN) search,
+    where observed performance can be dominated by index design and query constraints rather
+    than embedding quality alone. HNSW introduced a graph-based ANN approach with strong
+    practical recall-latency trade-offs in memory-resident settings
+    <a href="#ref-7" class="citation">[7]</a>.
+  </p>
+
+  <p>
+    DiskANN extended ANN search to large-scale regimes by leveraging SSD-aware designs to
+    reduce memory pressure while preserving competitive latency and recall
+    <a href="#ref-8" class="citation">[8]</a>.
+  </p>
+
+  <p>
+    Faiss provides a broad indexing taxonomy and implementation guidance that is useful for
+    controlled index comparisons in experimental pipelines <a href="#ref-9" class="citation">[9]</a>.
+    At the system layer, Milvus highlights operational considerations such as updates,
+    distributed execution, and hybrid query behavior that influence real deployment outcomes
+    beyond raw nearest-neighbor metrics <a href="#ref-10" class="citation">[10]</a>.
+  </p>
+
+  <p>
+    Importantly, recent filtered ANN analysis shows that metadata constraints can
+    substantially change retrieval behavior; selectivity and execution planning effects can
+    dominate conclusions drawn from unfiltered benchmarks
+    <a href="#ref-11" class="citation">[11]</a>.
+  </p>
+
+  <p><strong>Research gap.</strong></p>
+
+  <p>
+    Across these literatures, a gap remains between algorithm-centric results and deployable
+    cross-domain retrieval methodology. Many studies optimize a single representation on a
+    single dataset, or benchmark embeddings without jointly controlling representation view,
+    embedding strategy, and retrieval/index behavior under realistic filtered workloads.
+    Fewer works systematically evaluate how time-domain, frequency-domain, and fused
+    time-frequency representations interact with different embedding paradigms and ANN
+    indexing choices across multiple domains under one reproducible protocol. This motivates
+    a methodology-centered study: not a new foundation model, but a compact and controlled
+    evaluation framework that yields actionable guidance on which encoding and retrieval
+    policies remain reliable when transferred across domains.
+  </p>
+</section>

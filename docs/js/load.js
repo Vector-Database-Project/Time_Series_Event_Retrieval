@@ -7,12 +7,13 @@ document.addEventListener("DOMContentLoaded", async () => {
   const sections = [
     "01_overview",
     "02_background",
-    "03_problem",
-    "04_datasets",
-    "05_methods",
-    "06_results",
-    "07_timeline",
-    "08_references"
+    "03_litreview",
+    "04_problem",
+    "05_datasets",
+    "06_methods",
+    "07_results",
+    "08_timeline",
+    "09_references"
   ];
 
   content.innerHTML = "";

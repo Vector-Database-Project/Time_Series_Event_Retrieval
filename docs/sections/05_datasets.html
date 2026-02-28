@@ -1,0 +1,32 @@
+<section id="datasets">
+  <h2>Datasets</h2>
+  <p>
+    The project uses time-series data from three established repositories: EarthScope/IRIS,
+    PhysioNet, and the UCR Time Series Classification Archive. These sources were chosen
+    because they provide organized collections of time-evolving signals from different
+    domains, allowing retrieval methods to be evaluated beyond a single application setting.
+  </p>
+  <p>
+    EarthScope/IRIS provides seismic waveform time-series together with event and metadata
+    records, making it useful for retrieval of similar waveform events and temporally
+    localized seismic patterns. PhysioNet provides curated physiological recordings, such as
+    ECG, EEG, and related biomedical signals, and many datasets include expert or benchmark
+    annotations that define meaningful events in time. The UCR archive provides standardized
+    benchmark datasets in formats designed for machine learning experiments, making it useful
+    for controlled comparison of retrieval pipelines under cleaner and more consistent data
+    settings.
+  </p>
+  <p>
+    Rather than restricting the study to one exact dataset instance at the proposal stage,
+    this project focuses on time-series data that can be represented as fixed-duration
+    windows around events or meaningful temporal patterns. These windows form the basic
+    retrieval units used for preprocessing, representation learning, and vector-database
+    indexing across all the selected domains.
+  </p>
+  <p>
+    Dataset links:
+    <a href="https://ds.iris.edu/ds/nodes/dmc/data/" target="_blank" rel="noopener noreferrer">EarthScope/IRIS</a>,
+    <a href="https://physionet.org/about/database/" target="_blank" rel="noopener noreferrer">PhysioNet</a>,
+    <a href="https://www.timeseriesclassification.com/dataset.php" target="_blank" rel="noopener noreferrer">UCR Archive</a>.
+  </p>
+</section>

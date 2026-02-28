@@ -1,0 +1,45 @@
+<section id="methods">
+  <h2>Methodology</h2>
+
+  <p>
+    <strong>Stage 1: Data and policy standardization.</strong>
+    Datasets from the selected domains are collected, cleaned, and converted into a
+    common analysis format using fixed-duration windows and a shared metadata schema.
+    Metadata includes domain identifier, source or sequence ID for leakage-aware splits,
+    operating condition when available, and optional labels. To preserve realistic
+    evaluation conditions, splits are performed at the source level rather than at the
+    random window level. This stage establishes a consistent preprocessing and evaluation
+    policy across domains.
+  </p>
+
+  <p>
+    <strong>Stage 2: Encoding pipeline ablations and optimization of hyperparameters.</strong>
+    This stage evaluates a 3 × 3 design across data representations and embedding
+    methodologies to compare how different signal views interact with different learning
+    strategies for retrieval.
+  </p>
+
+  <p><strong>Preprocessing and representation choices:</strong></p>
+  <ul>
+    <li><strong>Time-only:</strong> raw standardized windows</li>
+    <li><strong>Frequency-only:</strong> FFT and STFT based representations</li>
+    <li><strong>Mixed time-frequency:</strong> combined temporal and spectral views</li>
+  </ul>
+
+  <p><strong>Embedding and learning strategies:</strong></p>
+  <ul>
+    <li><strong>TS2Vec:</strong> self-supervised representation learning</li>
+    <li><strong>InceptionTime:</strong> supervised learning based representation extraction</li>
+    <li><strong>tsfresh:</strong> engineered-feature baseline without learned embeddings</li>
+  </ul>
+
+  <p>
+    <strong>Stage 3: Benchmarking, comparison, and conclusions.</strong>
+    All configurations evaluated in Stage 2 are benchmarked and compared under a common
+    retrieval evaluation protocol. This stage consolidates results to support final
+    policy selection by comparing embedding methodologies, data representations, and the
+    best-performing representation-method combinations within each domain. Final
+    conclusions will be reported as comparative trends and policy recommendations, with
+    emphasis on which combinations generalize most consistently across domains.
+  </p>
+</section>

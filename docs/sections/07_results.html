@@ -1,0 +1,39 @@
+<section id="results">
+  <h2>Potential Results and Discussion</h2>
+
+  <p>
+    Retrieval performance will be evaluated using raw retrieval counts and ranking-based
+    metrics. For each query at cutoff <em>k</em>, the retrieved set will be analyzed in
+    terms of <strong>true positives (TP)</strong>, <strong>false positives (FP)</strong>,
+    and <strong>false negatives (FN)</strong>. These counts provide a direct view of how
+    many relevant events are successfully retrieved, how many irrelevant events are returned,
+    and how many relevant events are missed.
+  </p>
+
+  <p>
+    From these counts, the main top-<em>k</em> retrieval metrics will be computed as:
+  </p>
+  <ul>
+    <li><strong>Precision@k</strong>, to measure the fraction of retrieved events that are relevant</li>
+    <li><strong>Recall@k</strong>, to measure the fraction of relevant events recovered in the retrieved set</li>
+    <li><strong>mean Average Precision (mAP)</strong>, to evaluate the overall ranking quality of relevant events across the retrieval list</li>
+    <li><strong>nDCG</strong>, to evaluate ranking quality under graded relevance, where stronger matches are rewarded more when they appear earlier in the retrieved list</li>
+  </ul>
+
+  <p>
+    The expected outcome is that retrieval performance will vary across both representation
+    and embedding strategy. Time-only representations may preserve local waveform shape well,
+    while frequency-only representations based on FFT and STFT may better capture periodic or
+    spectral structure. Mixed time-frequency representations are expected to provide stronger
+    retrieval performance in settings where both temporal and spectral characteristics are
+    important. Among the embedding strategies, learned representations such as TS2Vec and
+    InceptionTime are expected to outperform the engineered-feature baseline in some domains,
+    though the strength of this advantage may depend on dataset characteristics and event type.
+  </p>
+
+  <p>
+    The final comparison will focus on identifying which representation-method combinations
+    produce the most reliable retrieval behavior within each domain and which combinations
+    generalize most consistently across domains as a practical default retrieval policy.
+  </p>
+</section>
