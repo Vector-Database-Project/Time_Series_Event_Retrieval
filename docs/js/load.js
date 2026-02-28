@@ -6,12 +6,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const sections = [
     "01_overview",
-    "02_litreview_mini",
-    "04_datasets",
-    "05_methods",
-    "06_results",
-    "07_timeline",
-    "08_references"
+    "02_litreview",
+    "03_datasets",
+    "04_methods",
+    "05_results",
+    "06_timeline",
+    "07_references"
   ];
 
   content.innerHTML = "";

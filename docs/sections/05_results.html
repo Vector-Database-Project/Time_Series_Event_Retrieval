@@ -21,19 +21,8 @@
   </ul>
 
   <p>
-    The expected outcome is that retrieval performance will vary across both representation
-    and embedding strategy. Time-only representations may preserve local waveform shape well,
-    while frequency-only representations based on FFT and STFT may better capture periodic or
-    spectral structure. Mixed time-frequency representations are expected to provide stronger
-    retrieval performance in settings where both temporal and spectral characteristics are
-    important. Among the embedding strategies, learned representations such as TS2Vec and
-    InceptionTime are expected to outperform the engineered-feature baseline in some domains,
-    though the strength of this advantage may depend on dataset characteristics and event type.
-  </p>
-
-  <p>
-    The final comparison will focus on identifying which representation-method combinations
-    produce the most reliable retrieval behavior within each domain and which combinations
-    generalize most consistently across domains as a practical default retrieval policy.
+    We expect performance to vary by representation (time, FFT or STFT, mixed time–frequency) and embedding approach
+    (TS2Vec, InceptionTime, tsfresh), and we will report which combinations are strongest per domain and which transfer most
+    consistently as a default retrieval policy.
   </p>
 </section>
