@@ -62,3 +62,20 @@ This project is being developed as part of a Machine Learning course project.
 
 ## Status
 🚧 Work in progress — initial repository setup and pipeline design.
+
+## Project Environment
+
+The project environment setup is provided in the `environment/` folder through the `env.yaml` file.
+
+For setup instructions and package details, refer to:
+
+- [`environment/env_setup.md`](environment/env_setup.md)
+
+## Data Processing
+
+
+The data preprocessing pipeline and dataset standardization steps are documented in:
+
+- [`data/data_processing_pipeline.md`](data/data_processing_pipeline.md)
+
+This document outlines the preprocessing workflow, storage format, metadata structure, and split generation strategy used to prepare raw time-series datasets for training and retrieval experiments.
