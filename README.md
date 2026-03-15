@@ -33,9 +33,9 @@ We compare three types of signal representations:
 
 We evaluate three embedding approaches:
 
-- **Self-supervised embeddings** (e.g., TS2Vec)
-- **Supervised embeddings** (e.g., InceptionTime)
-- **Non-learning baselines** (e.g., tsfresh features or DTW)
+- **Unsupervised embeddings**
+- **Supervised embeddings**
+- **Non-learning baselines**
 
 ### 3. Retrieval Evaluation
 - Store embeddings in a vector search system
@@ -73,9 +73,16 @@ For setup instructions and package details, refer to:
 
 ## Data Processing
 
-
 The data preprocessing pipeline and dataset standardization steps are documented in:
 
 - [`data/data_processing_pipeline.md`](data/data_processing_pipeline.md)
 
 This document outlines the preprocessing workflow, storage format, metadata structure, and split generation strategy used to prepare raw time-series datasets for training and retrieval experiments.
+
+## Embeddings
+
+The embedding pipeline and retrieval setup are documented in:
+
+- [`src/embeddings/embedding_pipeline.md`](src/embeddings/embedding_pipeline.md)
+
+This document outlines the embedding methods, input modes, run structure, vector storage, and retrieval evaluation workflow used in the ML pipeline.
