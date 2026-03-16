@@ -13,7 +13,7 @@
 - The fit step only defines the random projection matrix.
 
 **Mathematical idea**
-Given an input vector \( x \in \mathbb{R}^d \), the projected embedding \( z \in \mathbb{R}^k \) is:
+Given an input vector x in R^d, the projected embedding z in R^k is:
 
 \[
 z = xR
@@ -165,8 +165,8 @@ Each run must output:
 - one embedding vector per sample
 - fixed dimensions only
 - dimensions used in this stage:
-  - `128`
-  - `256`
+  - [TBD]
+  - [TBD]
 - output dtype: `float32`
 
 Not allowed:
