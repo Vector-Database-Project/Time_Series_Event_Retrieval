@@ -33,9 +33,9 @@ We compare three types of signal representations:
 
 We evaluate three embedding approaches:
 
-- **Self-supervised embeddings** (e.g., TS2Vec)
-- **Supervised embeddings** (e.g., InceptionTime)
-- **Non-learning baselines** (e.g., tsfresh features or DTW)
+- **Unsupervised embeddings**
+- **Supervised embeddings**
+- **Non-learning baselines**
 
 ### 3. Retrieval Evaluation
 - Store embeddings in a vector search system
@@ -73,9 +73,54 @@ For setup instructions and package details, refer to:
 
 ## Data Processing
 
-
 The data preprocessing pipeline and dataset standardization steps are documented in:
 
 - [`data/data_processing_pipeline.md`](data/data_processing_pipeline.md)
 
 This document outlines the preprocessing workflow, storage format, metadata structure, and split generation strategy used to prepare raw time-series datasets for training and retrieval experiments.
+
+## Embeddings
+
+The embedding pipeline and retrieval setup are documented in:
+
+- [`src/embeddings/embedding_pipeline.md`](src/embeddings/embedding_pipeline.md)
+
+This document outlines the embedding methods, input modes, run structure, vector storage, and retrieval evaluation workflow used in the ML pipeline.
+
+
+## MIT-BIH ECG chunking policy
+
+### Time-domain preprocessing note
+
+For the MIT-BIH preprocessing stage, beats are extracted using a fixed **beat-centered symmetric window** with:
+
+- `pre_samples = 180`
+- `post_samples = 180`
+
+MIT-BIH signals are digitized at **360 Hz per channel**, and the beat annotations were realigned so that they **generally appear at the R-wave peak**. This makes annotation-centered extraction appropriate for waveform analysis and averaging. The same dataset documentation states that the analog signals were filtered with an approximate **0.1 to 100 Hz** passband before digitization. 
+Reference("https://physionet.org/physiobank/database/html/mitdbdir/intro.htm")
+
+This choice produces a total chunk length of:
+
+- `N = 180 + 180 + 1 = 361 samples`
+- `361 / 360 ≈ 1.003 s`
+
+A roughly 1-second symmetric window was chosen intentionally. Standard ECG timing references place the **PR interval** around **120 to 200 ms**, the **QRS duration** below about **120 ms**, and commonly cited textbook **QTc** ranges below about **460 ms**. A ±500 ms window therefore comfortably captures the full local beat morphology around the annotated R-peak rather than only the QRS complex. 
+Reference("https://physionet.org/physiobank/database/html/mitdbdir/intro.htm")
+
+This window length was also chosen because the goal is **not** to isolate a beat completely from its temporal neighborhood. MIT-BIH contains fast and irregular episodes, including ventricular tachycardia around **174 to 177 bpm** and other arrhythmic episodes up to **189 bpm** in the record notes. A 1-second beat-centered window therefore intentionally preserves neighboring-beat transient effects when rhythms are fast, which is desirable for this retrieval setting.
+Reference1("https://www.nottingham.ac.uk/nursing/practice/resources/cardiology/function/normal_duration.php")
+Reference2("https://litfl.com/p-wave-ecg-library/")
+
+### Frequency-domain preprocessing note
+
+The saved **time-domain (TD)** representation keeps the raw ECG window unchanged. For the **frequency-domain (FD)** representation, each channel is **mean-centered per window before FFT**. This removes the constant offset and reduces the dominance of the **0 Hz / DC component** in the spectrum. This is consistent with standard spectral-analysis practice: SciPy’s `periodogram` and `welch` both use segment-level **constant detrending** as the standard detrending option for spectral estimation.
+Reference1("https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.periodogram.html")
+Reference2("https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.welch.html")
+
+With `N = 361` and `fs = 360 Hz`, the one-sided FFT uses:
+
+- `F = 181` bins
+- frequency resolution `Δf = fs / N = 360 / 361 ≈ 0.997 Hz/bin`
+
+This gives an interpretable frequency axis across all extracted ECG windows.
