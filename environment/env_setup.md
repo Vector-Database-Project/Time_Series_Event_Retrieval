@@ -43,6 +43,7 @@ conda env update -f environment/env.yaml --prune
 | `tqdm` | progress bars |
 | `pyyaml` | config files |
 | `wfdb` | waveform dataset reading |
+| `pip`  | pip dependent packages install |
 
 ## Note
 
