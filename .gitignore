@@ -2,12 +2,6 @@
 __pycache__/
 *.py[cod]
 
-# Virtual environments
-venv/
-ENV/
-env/
-.venv/
-
 # IDE
 .vscode/
 .idea/
@@ -25,3 +19,7 @@ Thumbs.db
 # Environment variables
 .env
 .env.local
+
+# Database files
+data/*/raw
+data/*/processed/v1
