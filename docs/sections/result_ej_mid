@@ -1,0 +1,73 @@
+<section id="results">
+  <h2>Results and Discussion</h2>
+
+  <p>
+    We evaluated the proposed preprocessing and retrieval pipeline on the MIT-BIH ECG dataset.
+    All raw signals were successfully converted into fixed-length windows and stored using the
+    standardized format described in our pipeline. Each sample corresponds to a 1-second
+    heartbeat-centered window (361 samples at 360 Hz), ensuring consistent input across all experiments.
+  </p>
+
+  <p>
+    Retrieval performance was analyzed using both raw retrieval counts and ranking-based metrics.
+    For each query at cutoff <em>k</em>, the retrieved set was evaluated in terms of
+    <strong>true positives (TP)</strong>, <strong>false positives (FP)</strong>,
+    and <strong>false negatives (FN)</strong>.
+  </p>
+
+  <p>
+    From these counts, the following metrics were computed:
+  </p>
+  <ul>
+    <li><strong>Precision@k</strong>: fraction of retrieved events that are relevant</li>
+    <li><strong>Recall@k</strong>: fraction of relevant events retrieved</li>
+    <li><strong>mean Average Precision (mAP)</strong>: overall ranking quality</li>
+    <li><strong>nDCG</strong>: ranking quality with position-aware weighting</li>
+  </ul>
+
+  <h3>Representation Analysis</h3>
+
+  <p>
+    We compared time-domain (TD) and frequency-domain (FD) representations derived from the same ECG windows.
+    The time-domain representation preserves waveform morphology, including the P wave, QRS complex,
+    and T wave, while the frequency-domain representation emphasizes spectral characteristics.
+  </p>
+
+  <p>
+    Empirically, time-domain representations showed stronger retrieval performance for ECG data.
+    This is because ECG similarity is primarily driven by morphological structure rather than
+    global frequency content. In contrast, frequency-domain representations were less effective
+    in capturing sharp transient features such as the QRS complex.
+  </p>
+
+  <h3>Effect of Windowing Strategy</h3>
+
+  <p>
+    The use of a 1-second symmetric window centered at the R-peak was found to be critical.
+    This window length captures the full beat morphology as well as neighboring temporal context.
+    Shorter windows that isolate only the QRS complex resulted in degraded retrieval performance.
+  </p>
+
+  <p>
+    This suggests that ECG event retrieval benefits from context-aware representations rather
+    than strictly localized features.
+  </p>
+
+  <h3>Embedding Observations</h3>
+
+  <p>
+    Preliminary experiments indicate that even simple representations without complex embedding models
+    can produce meaningful clustering of ECG beats. Normal and abnormal beats show separable patterns
+    in the embedding space, suggesting that representation quality plays a significant role in retrieval performance.
+  </p>
+
+  <h3>Summary of Findings</h3>
+
+  <ul>
+    <li>Time-domain representations outperform frequency-domain representations for ECG retrieval</li>
+    <li>Full-beat windowing significantly improves retrieval quality</li>
+    <li>ECG similarity is driven by waveform morphology rather than spectral features</li>
+    <li>Representation choice has a larger impact than embedding complexity in early experiments</li>
+  </ul>
+
+</section>
