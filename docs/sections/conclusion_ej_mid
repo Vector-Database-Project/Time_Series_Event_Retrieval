@@ -1,0 +1,52 @@
+<section id="conclusion">
+  <h2>Conclusion and Next Steps</h2>
+
+  <p>
+    In this work, we developed a standardized preprocessing and retrieval pipeline for
+    time-series event retrieval and validated it on the MIT-BIH ECG dataset. The pipeline
+    successfully converts raw signals into fixed-length, metadata-aligned samples and supports
+    both time-domain and frequency-domain representations in a unified format.
+  </p>
+
+  <p>
+    Our experiments provide several important insights. First, time-domain representations
+    consistently outperform frequency-domain representations for ECG retrieval tasks, as they
+    preserve waveform morphology such as the P wave, QRS complex, and T wave. Second, the choice
+    of windowing strategy plays a critical role. A context-aware window centered around the R-peak
+    significantly improves retrieval quality compared to shorter, isolated segments. Finally,
+    preliminary results suggest that representation quality has a larger impact on retrieval
+    performance than embedding complexity in early-stage systems.
+  </p>
+
+  <p>
+    These findings indicate that, for physiological signals such as ECG, similarity is primarily
+    driven by temporal structure rather than spectral characteristics. As a result, preserving
+    local waveform information is essential for effective event retrieval.
+  </p>
+
+  <h3>Limitations</h3>
+
+  <ul>
+    <li>Experiments were conducted on a single dataset (MIT-BIH ECG)</li>
+    <li>Embedding methods have not yet been fully explored or optimized</li>
+    <li>Cross-domain generalization has not been evaluated at this stage</li>
+  </ul>
+
+  <h3>Next Steps</h3>
+
+  <ul>
+    <li>Extend experiments to multiple datasets (e.g., IMU, vibration, UCR archive)</li>
+    <li>Evaluate advanced embedding methods such as TS2Vec, InceptionTime, and tsfresh</li>
+    <li>Incorporate time-frequency representations (e.g., STFT) for richer signal encoding</li>
+    <li>Perform systematic hyperparameter tuning across representations and embeddings</li>
+    <li>Evaluate cross-domain generalization and identify robust retrieval configurations</li>
+    <li>Integrate scalable vector search systems (e.g., HNSW, Faiss) for large-scale evaluation</li>
+  </ul>
+
+  <p>
+    Overall, this work establishes a strong foundation for systematic evaluation of time-series
+    event retrieval. Future work will focus on expanding the framework across domains and identifying
+    representation and embedding strategies that generalize reliably.
+  </p>
+
+</section>
