@@ -1,0 +1,23 @@
+{
+    "dataset_name": "ecg",
+    "run_name": "grp_frequency_128",
+    "run_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\embeddings\\ecg\\grp_frequency_128",
+    "assets_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\src\\representations\\assets\\evaluation\\ecg\\grp_frequency_128",
+    "metric": "l2",
+    "top_k": [
+        1,
+        5,
+        10
+    ],
+    "batch_size": 512,
+    "run_config": {
+        "method": "GaussianRandomProjection",
+        "n_components": 128,
+        "random_state": 42,
+        "train_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\data\\ecg\\processed\\v1tts\\train",
+        "test_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\data\\ecg\\processed\\v1tts\\test",
+        "output_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\embeddings\\ecg\\grp_frequency_128",
+        "representation": "frequency",
+        "extract_fn_name": "FD_extractor"
+    }
+}

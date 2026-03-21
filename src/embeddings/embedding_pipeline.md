@@ -1,288 +1,167 @@
 # Embedding Pipeline
 
-## Selected Embedding Methods
+## Brief
 
-### Non-Learning Baseline, GaussianRandomProjection
-- Package: `scikit-learn`
-- Class: `sklearn.random_projection.GaussianRandomProjection`
+This file defines the current **implementation plan** for the embedding stage.
 
-**Method summary**
-- Gaussian Random Projection maps an input vector into a lower-dimensional space using a random Gaussian matrix.
-- The method is non-learning.
-- There is no supervised objective and no gradient-based training.
-- The fit step only defines the random projection matrix.
+It is a downstream planning file only.
+Upstream preprocessing and split generation are already defined in `data_processing_pipeline.md` and are treated as fixed inputs here.
 
-**Mathematical idea**
-Given an input vector x in R^d, the projected embedding z in R^k is:
-
-\[
-z = xR
-\]
-
-where \( R \) is a random projection matrix and \( k \) is the target embedding dimension.
-
-The main motivation is approximate preservation of pairwise geometry under random projection.
-
-**Why it is used here**
-- clean non-learning baseline
-- fixed output dimension through `n_components`
-- fast and simple
-- gives a direct baseline against supervised and unsupervised learned projections
-
-**Core API**
-- `fit_transform(X_ref)`
-- `transform(X_test)`
-
-**Main hyperparameters**
-- `n_components`
-- `random_state`
-
-**Implementation rule**
-- flatten each event representation into one row of `X`
-- run with `n_components=128`
-- run with `n_components=256`
-- use the projected output directly as the embedding
+This file should only capture:
+- what the embedding stage consumes
+- what runs are planned
+- what outputs must be saved
+- what constraints must be respected
 
 ---
 
-### Supervised, NeighborhoodComponentsAnalysis
-- Package: `scikit-learn`
-- Class: `sklearn.neighbors.NeighborhoodComponentsAnalysis`
+## Upstream Contract
 
-**Method summary**
-- Neighborhood Components Analysis is a supervised metric-learning method.
-- It learns a linear transformation of the input space.
-- The goal is to improve nearest-neighbor class structure in the transformed space.
+The embedding stage will consume:
 
-**Mathematical idea**
-Given an input vector \( x_i \), the embedding is:
+- `data/ecg/processed/v1tts/train`
+- `data/ecg/processed/v1tts/test`
 
-\[
-z_i = Lx_i
-\]
-
-where \( L \) is a learned linear transformation.
-
-The method optimizes a supervised objective based on stochastic nearest-neighbor classification.
-It learns \( L \) so that samples are more likely to have neighbors from the same class in the transformed space.
-
-**Why it is used here**
-- supervised branch of the study
-- directly relevant to retrieval because it learns neighbor-aware structure
-- fixed output dimension through `n_components`
-- clean transformer-style API
-
-**Core API**
-- `fit(X_ref, y_ref)`
-- `fit_transform(X_ref, y_ref)`
-- `transform(X_test)`
-
-**Main hyperparameters**
-- `n_components`
-- `init`
-- `max_iter`
-- `tol`
-- `random_state`
-
-**Implementation rule**
-- flatten each event representation into one row of `X`
-- fit only on labeled reference data
-- transform both reference and test samples
-- use the transformed output directly as the embedding
+Assumptions:
+- train/test split is already finalized upstream
+- TD, FD, and label shards are aligned within each split
+- preprocessing is not re-done here
+- no new TD or FD representations are generated here
 
 ---
 
-### Unsupervised, KernelPCA
-- Package: `scikit-learn`
-- Class: `sklearn.decomposition.KernelPCA`
+## Input Modes
 
-**Method summary**
-- Kernel PCA is an unsupervised nonlinear dimensionality reduction method.
-- It extends PCA using a kernel function.
-- The method performs PCA in an implicit nonlinear feature space.
-
-**Mathematical idea**
-Standard PCA finds directions of maximum variance in the original space.
-Kernel PCA first computes a kernel matrix between samples, centers it, and then performs eigendecomposition in kernel space.
-
-The final embedding is formed from the leading kernel principal components.
-
-There is no supervised loss here.
-The method is variance-driven in the transformed kernel space.
-
-**Why it is used here**
-- unsupervised branch of the study
-- nonlinear counterpart to the linear methods above
-- fixed output dimension through `n_components`
-- clean transformer-style API
-
-**Core API**
-- `fit(X_ref)`
-- `fit_transform(X_ref)`
-- `transform(X_test)`
-
-**Main hyperparameters**
-- `n_components`
-- `kernel`
-- `gamma`
-- `degree`
-- `coef0`
-- `eigen_solver`
-
-**Implementation rule**
-- flatten each event representation into one row of `X`
-- fit on the reference split only
-- transform both reference and test samples
-- use the transformed output directly as the embedding
-
----
-
-## Input Protocol
-
-The unit of retrieval is a fixed event sample.
-
-Each method will be run on the following input modes:
-1. `time`
-2. `frequency`
-3. `mixed`
-
-### Input adaptation
+Planned input modes:
 - `time`
-  - flatten `[C, W]` into one vector
 - `frequency`
-  - flatten `[C, F, 2]` into one vector
 - `mixed`
-  - concatenate flattened time and flattened frequency vectors for the same sample
 
-The encoder stage is treated as a black box.
-All preprocessing decisions end before the flattened event vector is passed into the embedding method.
+Mode rules:
+- `time`: load TD shards and flatten to `X`
+- `frequency`: load FD shards and flatten to `X`
+- `mixed`: load aligned TD and FD shards, flatten both, concatenate row-wise
 
----
-
-## Embedding Contract
-
-Each run must output:
-- one embedding vector per sample
-- fixed dimensions only
-- dimensions used in this stage:
-  - [TBD]
-  - [TBD]
-- output dtype: `float32`
-
-Not allowed:
-- variable-length embeddings
-- multiple embeddings per sample
-- hierarchical embedding outputs
+Mixed mode is assembled in the embedding stage.
 
 ---
 
-## Run Matrix
+## Loader Contract
 
-The core run matrix is:
+The embedding stage will use the existing shard-based extraction path.
 
-### Methods
+Per split and shard index, it should load:
+- features as `X`
+- labels as `y`
+
+Requirements:
+- one row per sample
+- one label per sample
+- matching sample order across aligned shards
+
+Any alignment mismatch should fail loudly.
+
+---
+
+## Planned Methods
+
+Initial planned methods:
 - `GaussianRandomProjection`
 - `NeighborhoodComponentsAnalysis`
 - `KernelPCA`
 
-### Input modes
-- `time`
-- `frequency`
-- `mixed`
-
-### Embedding dimensions
-- `128`
-- `256`
-
-This gives:
-- `3 × 3 × 2 = 18` core runs
-
-The main study axes are:
-- embedding method
-- input mode
-- embedding dimension
+This is the current baseline set and can be revised after implementation.
 
 ---
 
-## Split and Fit Strategy
+## Planned Run Matrix
 
-A common reference/test split will be used for all methods.
+Each run is defined by:
+- one input mode
+- one embedding method
+- one embedding dimension setting
 
-### Reference split
-- used to fit the method when fitting is required
-- used to populate the retrieval backend
-
-### Withheld test split
-- never inserted into the reference index
-- only embedded and used as query input
-
-### Per method
-- GaussianRandomProjection
-  - `fit_transform(X_ref)`
-  - `transform(X_test)`
-- NeighborhoodComponentsAnalysis
-  - `fit_transform(X_ref, y_ref)`
-  - `transform(X_test)`
-- KernelPCA
-  - `fit_transform(X_ref)`
-  - `transform(X_test)`
+Current plan:
+- input modes: `time`, `frequency`, `mixed`
+- methods: `GaussianRandomProjection`, `NeighborhoodComponentsAnalysis`, `KernelPCA`
+- embedding dimensions: `TBD`
 
 ---
 
-## Retrieval Flow
+## Fit Policy
+
+- fit on training split only
+- transform both training and test splits
+- use training embeddings as the retrieval pool
+- use test embeddings as queries
+
+The test split must not be used during fitting.
+
+---
+
+## Planned Execution Flow
 
 For each run:
-1. build event vectors for the selected input mode
-2. fit the method on the reference split if required
-3. transform the reference split into embeddings
-4. store reference embeddings in the vector database
-5. transform each withheld test sample
-6. use each test embedding as a query against the reference pool
-7. evaluate top-k retrieval quality
-
-The vector database is only the retrieval backend.
-The canonical output of each run is the saved embedding artifact plus metadata.
+1. choose input mode
+2. load train split
+3. load test split
+4. build `X_train, y_train`
+5. build `X_test, y_test`
+6. fit embedding method on training data
+7. transform train and test data
+8. index training embeddings
+9. query with test embeddings
+10. evaluate retrieval
+11. save run artifacts
 
 ---
 
-## Stored Output Per Run
+## Output Contract
 
-Each run must produce:
-- embeddings
-- `sample_id`
-- `source_id`
-- label
+Each run should save:
+- train embeddings
+- test embeddings
+- train labels
+- test labels
 - method tag
 - input mode tag
-- embedding dimension tag
+- embedding dimension
+- split identifier
+- run configuration metadata
 
-Optional additional metadata:
-- run id
-- split id
-- package version
-- method hyperparameters
+Final artifact layout will be fixed during implementation.
 
 ---
 
-## Feature Handling
+## Constraints
 
-Allowed:
-- removal of dead features
-- removal of zero-variance features
-
-Excluded:
-- additional dimensionality reduction stacked after the selected embedding method
+The embedding stage must not:
+- redefine preprocessing
+- regenerate TD or FD data
+- alter train/test membership
+- fit on test data
+- combine unmatched TD and FD shards
+- ignore alignment errors
 
 ---
 
-## Normalization Check
+## Pending Before Execution
 
-Normalization is not part of the main ablation matrix.
+To be finalized:
+- embedding dimension values
+- artifact folder structure
+- retrieval backend choice
+- evaluation metrics
+- full-split vs shard-wise execution strategy
 
-Plan:
-- run a small representative check
-- compare normalized vs unnormalized input handling
-- if normalization is not clearly useful, drop it before the main runs
+---
 
-This check is only a gate before the 18 core runs.
-It is not one of the final study axes.
+## Status
+
+This is a planning file for implementation.
+
+It should be updated after execution to reflect:
+- what was actually run
+- finalized settings
+- saved outputs
+- any deviations from plan

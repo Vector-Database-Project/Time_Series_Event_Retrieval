@@ -1,0 +1,53 @@
+<section id="embedding">
+  <h2>Embedding and Evaluation Pipeline</h2>
+  <p>
+    The embedding stage is downstream of preprocessing. It consumes the already-saved
+    test and train splits, loads aligned shards, flattens each sample into one row of <code>X</code>, 
+    and fits the selected method on the training split only.
+
+
+  <h3>Implemented baseline</h3>
+  <p>
+    The first completed embedding baseline is <strong>Gaussian Random Projection</strong>. For the current pass,
+    it has been run on both time-domain and frequency-domain inputs at 64 and 128 projected dimensions.
+  </p>
+
+  <div class="summary-grid">
+    <div class="summary-card">
+      <span class="label">Completed runs</span>
+      <span class="value">4</span>
+    </div>
+    <div class="summary-card">
+      <span class="label">Representations run</span>
+      <span class="value">time, frequency</span>
+    </div>
+    <div class="summary-card">
+      <span class="label">Dimensions run</span>
+      <span class="value mono">64, 128</span>
+    </div>
+    <div class="summary-card">
+      <span class="label">Deployed Method</span>
+      <span class="value">Gaussian Random Projection</span>
+    </div>
+  </div>
+
+  <h3>Current execution flow</h3>
+  <ol>
+    <li>load the full train split for the selected representation</li>
+    <li>load the full test split for the same representation</li>
+    <li>fit the embedding method on train only</li>
+    <li>transform train and test into embeddings</li>
+    <li>save embeddings, labels and projection artifacts</li>
+    <li>evaluate retrieval using the saved embedding artifacts</li>
+  </ol>
+
+  <h3>Current evaluation behavior</h3>
+  <ul>
+    <li>use train embeddings as the reference pool</li>
+    <li>use test embeddings as queries</li>
+    <li>retrieve top-K nearest train embeddings for each test query</li>
+    <li>assign the predicted label by majority vote over retrieved labels</li>
+    <li>report Accuracy@K, Recall@K, F1@K, and confusion matrices</li>
+  </ul>
+
+</section>

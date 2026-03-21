@@ -1,0 +1,129 @@
+<section id="results">
+  <h2>Current Results</h2>
+  <p>
+    The first completed retrieval sweep covers four Gaussian Random Projection runs:
+    time-domain and frequency-domain inputs, each at 64 and 128 projected dimensions.
+  </p>
+
+  <div class="summary-grid">
+    <div class="summary-card">
+      <span class="label">Best run</span>
+      <span class="value mono">time_128</span>
+    </div>
+    <div class="summary-card">
+      <span class="label">Accuracy@1</span>
+      <span class="value">0.9814</span>
+    </div>
+    <div class="summary-card">
+      <span class="label">Macro Recall@1</span>
+      <span class="value">0.6379</span>
+    </div>
+    <div class="summary-card">
+      <span class="label">Macro F1@1</span>
+      <span class="value">0.6552</span>
+    </div>
+  </div>
+
+  <h3>Top-1 comparison</h3>
+  <table class="metric-table">
+    <thead>
+      <tr>
+        <th>Run</th>
+        <th class="num">Accuracy@1</th>
+        <th class="num">Recall@1</th>
+        <th class="num">F1@1</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>grp_time_128</code></td>
+        <td class="num"><strong>0.9814</strong></td>
+        <td class="num"><strong>0.6379</strong></td>
+        <td class="num"><strong>0.6552</strong></td>
+      </tr>
+      <tr>
+        <td><code>grp_time_064</code></td>
+        <td class="num">0.9799</td>
+        <td class="num">0.6329</td>
+        <td class="num">0.6449</td>
+      </tr>
+      <tr>
+        <td><code>grp_frequency_128</code></td>
+        <td class="num">0.9702</td>
+        <td class="num">0.5801</td>
+        <td class="num">0.5976</td>
+      </tr>
+      <tr>
+        <td><code>grp_frequency_064</code></td>
+        <td class="num">0.9642</td>
+        <td class="num">0.6113</td>
+        <td class="num">0.6357</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Full recorded metrics</h3>
+  <table class="metric-table">
+    <thead>
+      <tr>
+        <th>Run</th>
+        <th>K</th>
+        <th class="num">Accuracy</th>
+        <th class="num">Macro Recall</th>
+        <th class="num">Macro F1</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td rowspan="3"><code>grp_time_064</code></td><td>1</td><td class="num">0.9799</td><td class="num">0.6329</td><td class="num">0.6449</td></tr>
+      <tr><td>5</td><td class="num">0.9780</td><td class="num">0.5952</td><td class="num">0.6414</td></tr>
+      <tr><td>10</td><td class="num">0.9738</td><td class="num">0.5372</td><td class="num">0.5788</td></tr>
+
+      <tr><td rowspan="3"><code>grp_time_128</code></td><td>1</td><td class="num">0.9814</td><td class="num">0.6379</td><td class="num">0.6552</td></tr>
+      <tr><td>5</td><td class="num">0.9789</td><td class="num">0.5832</td><td class="num">0.6203</td></tr>
+      <tr><td>10</td><td class="num">0.9756</td><td class="num">0.5453</td><td class="num">0.5893</td></tr>
+
+      <tr><td rowspan="3"><code>grp_frequency_064</code></td><td>1</td><td class="num">0.9642</td><td class="num">0.6113</td><td class="num">0.6357</td></tr>
+      <tr><td>5</td><td class="num">0.9678</td><td class="num">0.5271</td><td class="num">0.5629</td></tr>
+      <tr><td>10</td><td class="num">0.9659</td><td class="num">0.5101</td><td class="num">0.5508</td></tr>
+
+      <tr><td rowspan="3"><code>grp_frequency_128</code></td><td>1</td><td class="num">0.9702</td><td class="num">0.5801</td><td class="num">0.5976</td></tr>
+      <tr><td>5</td><td class="num">0.9710</td><td class="num">0.5552</td><td class="num">0.5931</td></tr>
+      <tr><td>10</td><td class="num">0.9695</td><td class="num">0.5265</td><td class="num">0.5629</td></tr>
+    </tbody>
+  </table>
+<h3>Best-Run Confusion Matrices</h3>
+
+<figure>
+  <img
+    src="assets/grp_time_128/confusion_matrix_k_001.png"
+    alt="Confusion matrix for best run at k equals 1"
+    class="figure-lg"
+  />
+  <figcaption>Best recorded run confusion matrix at <code>k = 1</code>.</figcaption>
+</figure>
+
+<figure>
+  <img
+    src="assets/grp_time_128/confusion_matrix_k_005.png"
+    alt="Confusion matrix for best run at k equals 5"
+    class="figure-lg"
+  />
+  <figcaption>Best recorded run confusion matrix at <code>k = 5</code>.</figcaption>
+</figure>
+
+<figure>
+  <img
+    src="assets/grp_time_128/confusion_matrix_k_010.png"
+    alt="Confusion matrix for best run at k equals 10"
+    class="figure-lg"
+  />
+  <figcaption>Best recorded run confusion matrix at <code>k = 10</code>.</figcaption>
+</figure>
+
+  <h3>Current observations</h3>
+  <ul>
+    <li><strong>Time-domain inputs are currently stronger</strong> than frequency-domain inputs in the completed GRP sweep.</li>
+    <li><strong>128 dimensions improves over 64</strong> for both time and frequency in the current runs.</li>
+    <li><strong>K = 1 is currently the strongest setting</strong> across the recorded runs.</li>
+  </ul>
+</section>

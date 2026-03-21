@@ -21,5 +21,4 @@ Thumbs.db
 .env.local
 
 # Database files
-data/*/raw
-data/*/processed/v1
+data/*

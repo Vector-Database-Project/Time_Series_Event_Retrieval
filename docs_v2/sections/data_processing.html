@@ -1,0 +1,104 @@
+<section id="data-processing">
+  <h2>Data Processing Pipeline</h2>
+  <p>
+    The current ECG preprocessing stage converts raw MIT-BIH records into fixed event windows, derives the
+    frequency view from the saved time-domain windows, saves the processed dataset to <code>processed/v1</code>,
+    and then builds a derived train/test split at <code>processed/v1tts</code>.
+  </p>
+
+  <div class="summary-grid">
+    <div class="summary-card">
+      <span class="label">Pre-samples</span>
+      <span class="value mono">180</span>
+    </div>
+    <div class="summary-card">
+      <span class="label">Post-samples</span>
+      <span class="value mono">180</span>
+    </div>
+    <div class="summary-card">
+      <span class="label">Chunk length</span>
+      <span class="value mono">361 samples</span>
+    </div>
+    <div class="summary-card">
+      <span class="label">Sampling rate</span>
+      <span class="value mono">360 Hz</span>
+    </div>
+    <div class="summary-card">
+      <span class="label">FFT bins stored</span>
+      <span class="value mono">181</span>
+    </div>
+    <div class="summary-card">
+      <span class="label">Test Train Split policy</span>
+      <span class="value">Label-stratified random</span>
+    </div>
+  </div>
+
+  <h3>Implemented flow</h3>
+  <ul>
+    <li>parse and filter annotations</li>
+    <li>extract fixed beat-centered time-domain windows</li>
+    <li>mean-center each channel per window and compute one-sided FFT</li>
+    <li>save TD, FD, labels, label map, and frequency bins under</li>
+    <li>split the full processed dataset into test and train sets</code></li>
+  </ul>
+
+  <h3>Current saved structure</h3>
+  <pre><code>data/ecg/processed/
+  v1/
+    time_domain_data/
+      td_shard.npz
+    frequency_domain_data/
+      fd_shard.npz
+    labels/
+      labels_shard.npz
+    label_map.json
+    frequency_bins.npz
+
+  v1tts/
+    split_config.json
+    train/
+      time_domain_data/
+        td_shard_000.npz
+        td_shard_001.npz
+        ...
+      frequency_domain_data/
+        fd_shard_000.npz
+        fd_shard_001.npz
+        ...
+      labels/
+        labels_shard_000.npz
+        labels_shard_001.npz
+        ...
+    test/
+      time_domain_data/
+        td_shard_000.npz
+        td_shard_001.npz
+        ...
+      frequency_domain_data/
+        fd_shard_000.npz
+        fd_shard_001.npz
+        ...
+      labels/
+        labels_shard_000.npz
+        labels_shard_001.npz
+        ...
+      </code></pre>
+
+<h3>Chunking policy</h3>
+  <p>
+    Beats are extracted using a fixed beat-centered symmetric window. With
+    <code>pre_samples = 180</code>, <code>post_samples = 180</code>, and a sampling rate of
+    <code>360 Hz</code>, each event window contains <code>361</code> samples, which corresponds to
+    approximately <code>1.003 s</code> of signal. This keeps every extracted event on a common length
+    and preserves aligned local waveform context for downstream embedding and retrieval.
+  </p>
+
+  <h3>Frequency-domain preprocessing note</h3>
+  <p>
+    The saved time-domain representation keeps the raw extracted ECG window unchanged. The frequency-domain
+    representation is derived from that same saved window after per-channel mean-centering, followed by a
+    one-sided FFT. This reduces the dominance of the DC component while preserving a consistent spectral view
+    across windows. With <code>N = 361</code> and <code>fs = 360 Hz</code>, the one-sided FFT stores
+    <code>181</code> bins with a frequency resolution of approximately <code>0.997 Hz/bin</code>.
+  </p>
+</section>

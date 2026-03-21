@@ -1,0 +1,10 @@
+{
+    "method": "GaussianRandomProjection",
+    "n_components": 128,
+    "random_state": 42,
+    "train_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\data\\ecg\\processed\\v1tts\\train",
+    "test_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\data\\ecg\\processed\\v1tts\\test",
+    "output_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\embeddings\\ecg\\grp_frequency_128",
+    "representation": "frequency",
+    "extract_fn_name": "FD_extractor"
+}

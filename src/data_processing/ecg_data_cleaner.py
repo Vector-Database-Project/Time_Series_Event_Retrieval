@@ -269,9 +269,9 @@ class ECGDataCleaner:
                 f"Check the frequency domain data processing logic for consistency."
             )
         
-        np.savez(self.time_domain_dir / "td_shard_000.npz", data=td_data_array)
-        np.savez(self.frequency_domain_dir / "fd_shard_000.npz", data=fd_data_array)
-        np.savez(self.labels_dir / "label_shard_000.npz", data=label_ids_array)
+        np.savez(self.time_domain_dir / "td_shard.npz", data=td_data_array)
+        np.savez(self.frequency_domain_dir / "fd_shard.npz", data=fd_data_array)
+        np.savez(self.labels_dir / "label_shard.npz", data=label_ids_array)
         np.savez(self.processed_data_dir / "frequency_bins.npz", data=self.frequency_bins)
 
         with open(self.processed_data_dir / "label_map.json", "w") as f:

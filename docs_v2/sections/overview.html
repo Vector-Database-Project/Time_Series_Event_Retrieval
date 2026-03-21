@@ -1,0 +1,44 @@
+<section id="overview">
+  <h2>Overview</h2>
+
+  <p>
+    Time-series event retrieval aims to find past signal events that are similar to a query event. In this project,
+    fixed event windows are converted into vector representations so they can be compared through nearest-neighbor
+    retrieval. This page documents the <strong>current ECG implementation</strong> of the broader time-series event
+    retrieval project. The original project direction is cross-domain, but the present deployed content reflects what
+    has actually been built and evaluated so far.
+  </p>
+
+  <div class="summary-grid">
+    <div class="summary-card">
+      <span class="label">Current dataset</span>
+      <span class="value">MIT-BIH ECG</span>
+    </div>
+    <div class="summary-card">
+      <span class="label">Processed split</span>
+      <span class="value mono">processed/v1tts</span>
+    </div>
+    <div class="summary-card">
+      <span class="label">Implemented baseline</span>
+      <span class="value">Gaussian Random Projection</span>
+    </div>
+    <div class="summary-card">
+      <span class="label">Best recorded run</span>
+      <span class="value mono">time_128</span>
+    </div>
+  </div>
+
+  <p>
+    The current implemented scope includes ECG preprocessing, a saved train/test split, a single-event walkthrough,
+    a Gaussian Random Projection embedding baseline, and a common retrieval evaluation path with saved metrics and
+    confusion-matrix artifacts.
+  </p>
+
+  <ul>
+    <li>Raw MIT-BIH records are converted into fixed beat-centered event windows.</li>
+    <li>Aligned time-domain and frequency-domain views are saved to disk.</li>
+    <li>A stratified random train/test split is materialized at <code>processed/v1tts</code>.</li>
+    <li>Gaussian random projection has been run for time and frequency inputs at 64 and 128 dimensions.</li>
+    <li>Evaluation currently reports Accuracy@K, Recall@K, F1@K, and confusion matrices.</li>
+  </ul>
+</section>
