@@ -1,4 +1,3 @@
-/* Global color palette and reusable theme values */
 :root {
   --bg: #0b0f14;
   --panel: #121821;
@@ -9,35 +8,35 @@
   --accent: #7cc0ff;
   --accent-soft: rgba(124, 192, 255, 0.12);
   --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  --success: #8bd48b;
 }
 
-/* Make width and padding calculations more predictable everywhere */
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
+  min-width: 0;
 }
 
-/* Enable smooth scrolling when jumping to sections or references */
 html {
   scroll-behavior: smooth;
 }
 
-/* Base page appearance, background, text color, and default font */
 body {
   margin: 0;
   background: linear-gradient(180deg, #0b0f14 0%, #0e131a 100%);
   color: var(--text);
   font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
   line-height: 1.7;
+  overflow-x: hidden;
 }
 
-/* Main wrapper that keeps the page centered and limits maximum width */
 .page-shell {
-  width: min(1000px, calc(100% - 32px));
+  width: min(1040px, calc(100% - 32px));
   margin: 0 auto;
   padding: 48px 0 64px;
 }
 
-/* Top banner section that contains the page title and subtitle */
 .site-header {
   margin-bottom: 28px;
   padding: 28px;
@@ -45,9 +44,9 @@ body {
   border: 1px solid var(--border);
   border-radius: 18px;
   box-shadow: var(--shadow);
+  overflow: hidden;
 }
 
-/* Small label above the title, used for course or section context */
 .eyebrow {
   margin: 0 0 8px;
   color: var(--accent);
@@ -57,27 +56,23 @@ body {
   text-transform: uppercase;
 }
 
-/* Main page title styling inside the header */
 .site-header h1 {
   margin: 0 0 10px;
   font-size: clamp(2rem, 3vw, 3rem);
   line-height: 1.15;
 }
 
-/* Subtitle text under the main title */
 .subtitle {
   margin: 0;
   color: var(--muted);
-  max-width: 750px;
+  max-width: 760px;
 }
 
-/* Vertical layout for loaded content sections with spacing between cards */
 .content-stack {
   display: grid;
   gap: 20px;
 }
 
-/* Shared card style for each content section and placeholder card */
 .section-wrapper > section,
 .card {
   background: var(--panel);
@@ -85,9 +80,11 @@ body {
   border-radius: 18px;
   padding: 26px 28px;
   box-shadow: var(--shadow);
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
 }
 
-/* Main section headings like Overview, Methods, References */
 h2 {
   margin-top: 0;
   margin-bottom: 14px;
@@ -95,48 +92,43 @@ h2 {
   color: var(--text);
 }
 
-/* Smaller subsection headings inside a section */
 h3 {
   margin-top: 22px;
   margin-bottom: 10px;
   color: var(--text);
 }
 
-/* Default paragraph spacing and readable text color */
 p {
   margin: 0 0 14px;
   color: var(--text);
+  overflow-wrap: break-word;
 }
 
-/* Remove extra bottom space on the last paragraph in a block */
 p:last-child {
   margin-bottom: 0;
 }
 
-/* Default spacing and indentation for unordered and ordered lists */
 ul,
 ol {
   margin: 0 0 14px 22px;
   color: var(--text);
 }
 
-/* Spacing between individual list items */
 li {
   margin-bottom: 8px;
+  overflow-wrap: break-word;
 }
 
-/* General link appearance across the page */
 a {
   color: var(--accent);
   text-decoration: none;
+  overflow-wrap: break-word;
 }
 
-/* Add underline when hovering over links for clarity */
 a:hover {
   text-decoration: underline;
 }
 
-/* Inline code styling for filenames, tags, or small code snippets */
 code {
   font-family: Consolas, "Courier New", monospace;
   background: var(--accent-soft);
@@ -144,89 +136,200 @@ code {
   border-radius: 8px;
   padding: 2px 6px;
   color: var(--text);
+  overflow-wrap: break-word;
 }
 
-/* Slightly brighter text for emphasized words */
+pre {
+  margin: 0 0 14px;
+  padding: 14px 16px;
+  overflow-x: auto;
+  max-width: 100%;
+  background: #0f141c;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+pre code {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  white-space: pre;
+}
+
 strong {
   color: #f4f8fc;
 }
 
-/* In-text citation links like [1], [2], [3] */
 .citation {
   text-decoration: none;
   font-weight: 600;
   margin-left: 2px;
 }
 
-/* Show underline when hovering over citation links */
 .citation:hover {
   text-decoration: underline;
 }
 
-/* Indentation for the references list at the bottom of the page */
 .references-list {
   padding-left: 22px;
 }
 
-/* Extra spacing between each reference entry */
 .references-list li {
   margin-bottom: 14px;
 }
 
-/* =========================
-   Timeline (Gantt chart)
-   ========================= */
-
-/* Wrapper figure for the Gantt chart image and caption */
-.timeline-figure {
-  margin: 0;
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 14px;
+  margin: 18px 0;
+  width: 100%;
+  max-width: 100%;
 }
 
-/* Make the Gantt chart image responsive and visually clean */
-.timeline-figure img {
-  max-width: 100%;        /* scales down to fit the page width */
-  height: auto;           /* preserves aspect ratio */
-  display: block;         /* removes inline-image spacing */
-  border: 1px solid #ddd; /* subtle border to separate from background */
-  border-radius: 8px;     /* rounded corners for a softer look */
+.summary-card {
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 16px;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow: hidden;
 }
 
-/* Optional spacing for the caption under the image */
-.timeline-figure figcaption {
-  margin-top: 8px;
-  font-size: 0.95rem;
-  opacity: 0.85;
+.summary-card .label {
+  display: block;
+  color: var(--muted);
+  font-size: 0.92rem;
+  margin-bottom: 4px;
+  overflow-wrap: break-word;
 }
 
-/* =========================
-   Contribution Table
-   ========================= */
-
-/* Basic table layout and spacing */
-.contrib-table {
-  width: 100%;                 /* full width table */
-  border-collapse: collapse;   /* single borders instead of doubled lines */
-  margin-top: 10px;            /* space above table */
+.summary-card .value {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 700;
+  overflow-wrap: break-word;
 }
 
-/* Cell styling for both header and body cells */
-.contrib-table th,
-.contrib-table td {
-  border: 1px solid #ddd;  /* light grid lines */
-  padding: 10px;           /* breathing room inside cells */
-  vertical-align: top;     /* align multi-line text to the top */
-  text-align: left;        /* readable alignment for names and text */
+.note-box,
+.success-box {
+  margin: 18px 0;
+  padding: 14px 16px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
 }
 
-/* Header emphasis */
-.contrib-table th {
+.note-box {
+  background: var(--accent-soft);
+  border: 1px solid var(--border);
+}
+
+.success-box {
+  background: rgba(139, 212, 139, 0.10);
+  border: 1px solid rgba(139, 212, 139, 0.25);
+}
+
+.figure-list li code,
+.asset-list li code {
+  white-space: nowrap;
+}
+
+table {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  margin-top: 10px;
+  margin-bottom: 14px;
+}
+
+table th,
+table td {
+  border: 1px solid var(--border);
+  padding: 10px;
+  vertical-align: top;
+  text-align: left;
+}
+
+table th {
   font-weight: 600;
+  background: var(--panel-2);
 }
 
-/* Adjust spacing and card size for smaller screens like phones */
+.mono {
+  font-family: Consolas, "Courier New", monospace;
+}
+
+.metric-table td.num,
+.metric-table th.num {
+  text-align: right;
+}
+
+/* Responsive media */
+img,
+svg,
+video,
+canvas,
+iframe {
+  display: block;
+  max-width: 100%;
+  width: 100%;
+  height: auto;
+  margin: 1rem auto;
+  border-radius: 12px;
+}
+
+/* If you want some images smaller, add a class like class="figure-md" */
+.figure-sm {
+  max-width: 420px;
+}
+
+.figure-md {
+  max-width: 720px;
+}
+
+.figure-lg {
+  max-width: 960px;
+}
+
+/* Figure wrapper */
+figure {
+  margin: 1rem 0;
+  width: 100%;
+  max-width: 100%;
+}
+
+figure img {
+  margin: 0 auto;
+}
+
+figcaption {
+  margin-top: 0.65rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+  text-align: center;
+  overflow-wrap: break-word;
+}
+
+/* Prevent long filenames and paths from breaking layout */
+.mono,
+code,
+.value,
+.label,
+td,
+th {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
 @media (max-width: 700px) {
   .page-shell {
-    width: min(1000px, calc(100% - 20px));
+    width: min(1040px, calc(100% - 20px));
     padding: 24px 0 40px;
   }
 
@@ -235,5 +338,17 @@ strong {
   .card {
     padding: 20px;
     border-radius: 14px;
+  }
+
+  .summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  img,
+  svg,
+  video,
+  canvas,
+  iframe {
+    border-radius: 10px;
   }
 }
