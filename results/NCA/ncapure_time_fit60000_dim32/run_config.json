@@ -1,0 +1,19 @@
+{
+    "method": "NeighborhoodComponentsAnalysis",
+    "input_mode": "time",
+    "nca_fit_samples": 60000,
+    "n_components": 32,
+    "init": "identity",
+    "max_iter": 10,
+    "tol": 1e-05,
+    "random_state": 42,
+    "verbose": 1,
+    "train_root": "data\\ecg\\processed\\v1tts\\train",
+    "test_root": "data\\ecg\\processed\\v1tts\\test",
+    "output_root": "C:\\Users\\mabon\\OneDrive\\Documents\\GitHub\\Time_Series_Event_Retrieval\\results\\NCA\\ncapure_time_fit60000_dim32",
+    "split_identifier": "v1tts",
+    "fit_strategy": "fit_nca_on_train_subset_transform_full_train_test",
+    "retrieval_pool": "full_train",
+    "query_split": "full_test",
+    "fit_policy": "NCA_on_standardized_train_subset_only"
+}
