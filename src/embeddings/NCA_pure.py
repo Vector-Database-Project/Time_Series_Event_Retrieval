@@ -323,6 +323,16 @@ class NeighborhoodComponentsAnalysisEmbedder:
         Z = self.model.fit_transform(X, y)
         return np.asarray(Z, dtype=np.float32)
 
+    def standardize_train_test(self, X_train, X_test):
+        """
+        Fit scaler on train and transform both splits.
+
+        Returns float32 arrays to reduce RAM usage.
+        """
+        X_train_scaled = self.scaler.fit_transform(X_train).astype(np.float32, copy=False)
+        X_test_scaled = self.scaler.transform(X_test).astype(np.float32, copy=False)
+        return X_train_scaled, X_test_scaled
+
     def _save_npz_array(self, path, array):
         path = Path(path)
         path.parent.mkdir(parents=True, exist_ok=True)
@@ -354,7 +364,7 @@ class NeighborhoodComponentsAnalysisEmbedder:
         if hasattr(self.model, "components_"):
             save_map["nca_components"] = (
                 run_root / "nca_components.npz",
-                self.model.components_,
+                np.asarray(self.model.components_, dtype=np.float32),
             )
 
         for _, (path, array) in tqdm(
@@ -426,8 +436,7 @@ class NeighborhoodComponentsAnalysisEmbedder:
         print("X_test: ", X_test.shape, "y_test: ", y_test.shape)
 
         print("Standardizing using training split...")
-        X_train_scaled = self.scaler.fit_transform(X_train)
-        X_test_scaled = self.scaler.transform(X_test)
+        X_train_scaled, X_test_scaled = self.standardize_train_test(X_train, X_test)
 
         if self.n_components > X_train_scaled.shape[1]:
             raise ValueError(
@@ -481,37 +490,5 @@ class NeighborhoodComponentsAnalysisEmbedder:
             "Z_test_shape": Z_test.shape,
             "run_root": run_root,
         }
-
-
-if __name__ == "__main__":
-    train_root = "data/ecg/processed/v1tts/train"
-    test_root = "data/ecg/processed/v1tts/test"
-    output_root = Path(__file__).resolve().parents[2] / "results" / "NCA"
-
-    embedder = NeighborhoodComponentsAnalysisEmbedder(
-        train_root=train_root,
-        test_root=test_root,
-        output_root=output_root,
-        input_mode="time",
-        nca_fit_samples=60000,
-        n_components=32,
-        init="identity",
-        max_iter=10,
-        tol=1e-5,
-        random_state=42,
-        verbose=1,
-    )
-
-    result = embedder.run(
-        run_name="ncapure_time_fit60000_dim32",
-        split_identifier="v1tts",
-        extra_config={
-            "retrieval_pool": "full_train",
-            "query_split": "full_test",
-            "fit_policy": "NCA_on_standardized_train_subset_only",
-        },
-    )
-
-    print(result)
     
     
