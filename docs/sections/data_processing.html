@@ -1,104 +1,131 @@
 <section id="data-processing">
   <h2>Data Processing Pipeline</h2>
   <p>
-    The current ECG preprocessing stage converts raw MIT-BIH records into fixed event windows, derives the
-    frequency view from the saved time-domain windows, saves the processed dataset to <code>processed/v1</code>,
-    and then builds a derived train/test split at <code>processed/v1tts</code>.
+    The final ECG benchmark is built directly from raw MIT-BIH records. The preprocessing stage converts each retained
+    annotation into a fixed beat-centered window, derives a paired frequency-domain view from the same saved window, and
+    then constructs a leakage-aware balanced train/test split for downstream retrieval experiments.
   </p>
 
   <div class="summary-grid">
-    <div class="summary-card">
-      <span class="label">Pre-samples</span>
-      <span class="value mono">180</span>
-    </div>
-    <div class="summary-card">
-      <span class="label">Post-samples</span>
-      <span class="value mono">180</span>
-    </div>
-    <div class="summary-card">
-      <span class="label">Chunk length</span>
-      <span class="value mono">361 samples</span>
-    </div>
     <div class="summary-card">
       <span class="label">Sampling rate</span>
       <span class="value mono">360 Hz</span>
     </div>
     <div class="summary-card">
-      <span class="label">FFT bins stored</span>
+      <span class="label">Pre / post window</span>
+      <span class="value mono">180 / 180</span>
+    </div>
+    <div class="summary-card">
+      <span class="label">Window length</span>
+      <span class="value mono">361 samples</span>
+    </div>
+    <div class="summary-card">
+      <span class="label">FFT bins</span>
       <span class="value mono">181</span>
     </div>
     <div class="summary-card">
-      <span class="label">Test Train Split policy</span>
-      <span class="value">Label-stratified random</span>
+      <span class="label">Split policy</span>
+      <span class="value">Record-aware</span>
+    </div>
+    <div class="summary-card">
+      <span class="label">Final storage root</span>
+      <span class="value mono">processed/v2</span>
     </div>
   </div>
 
-  <h3>Implemented flow</h3>
+  <h3>Label-space design</h3>
+  <p>
+    The raw annotation stream contains many beat-level symbols together with markers that are not suitable as final
+    retrieval classes. To obtain a cleaner benchmark, the retained endogenous beat symbols are collapsed into three
+    coarse classes:
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Coarse class</th>
+        <th>Mapped symbols</th>
+        <th>Meaning</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>N</code></td>
+        <td><code>N, L, R, e, j</code></td>
+        <td>normal, conduction-side, and escape-side endogenous beats</td>
+      </tr>
+      <tr>
+        <td><code>S</code></td>
+        <td><code>A, a, J, S</code></td>
+        <td>supraventricular ectopic beats</td>
+      </tr>
+      <tr>
+        <td><code>V</code></td>
+        <td><code>V, E</code></td>
+        <td>ventricular-origin beats</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>
+    Fusion beats, paced beats, unclassifiable beats, flutter markers, blocked events, and artifact-related symbols are
+    dropped from the final benchmark definition. This keeps the task aligned with a coarse endogenous beat retrieval
+    problem rather than a heterogeneous annotation problem.
+  </p>
+
+  <h3>Window extraction policy</h3>
+  <p>
+    Each retained beat is extracted with a symmetric annotation-centered window of 180 samples before the annotation and
+    180 samples after it. At 360 Hz this produces a 361-sample event, corresponding to approximately 1.003 seconds of
+    signal. The design keeps full local beat morphology together with a small amount of neighborhood context, which is
+    useful for retrieval-oriented event matching.
+  </p>
+
+  <h3>Frequency-domain conversion</h3>
+  <p>
+    The frequency representation is derived from the saved time-domain window rather than from a separate preprocessing
+    branch. Each channel is mean-centered per event and transformed with a one-sided FFT, storing 181 frequency bins in
+    magnitude-phase form. This makes the time and frequency views strictly aligned at the event level.
+  </p>
+
+  <h3>Leakage-aware benchmark construction</h3>
+  <p>
+    Train and test are assigned at the record level, not at the beat level. Record identifiers are shuffled with a fixed
+    seed, then accumulated according to the limiting class <code>S</code> until the desired split sizes are reached.
+    This avoids train/test leakage through shared patient morphology.
+  </p>
+
+  <table class="metric-table">
+    <thead>
+      <tr>
+        <th>Split</th>
+        <th class="num">Target per class</th>
+        <th class="num">Final total</th>
+        <th>Construction rule</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Train</td>
+        <td class="num">2250</td>
+        <td class="num">6750</td>
+        <td>record-aware selection, then even-per-record random downsampling</td>
+      </tr>
+      <tr>
+        <td>Test</td>
+        <td class="num">250</td>
+        <td class="num">750</td>
+        <td>record-aware selection from remaining records, then even-per-record random downsampling</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Saved benchmark artifacts</h3>
   <ul>
-    <li>parse and filter annotations</li>
-    <li>extract fixed beat-centered time-domain windows</li>
-    <li>mean-center each channel per window and compute one-sided FFT</li>
-    <li>save TD, FD, labels, label map, and frequency bins under</li>
-    <li>split the full processed dataset into test and train sets</code></li>
+    <li>time-domain windows with shape <code>[N, 2, 361]</code></li>
+    <li>frequency-domain windows with shape <code>[N, 2, 181, 2]</code></li>
+    <li>coarse labels <code>N, S, V</code></li>
+    <li>sample metadata including record ID, center sample, and original symbol</li>
+    <li>split configuration, label map, and shared frequency bins</li>
   </ul>
-
-  <h3>Current saved structure</h3>
-  <pre><code>data/ecg/processed/
-  v1/
-    time_domain_data/
-      td_shard.npz
-    frequency_domain_data/
-      fd_shard.npz
-    labels/
-      labels_shard.npz
-    label_map.json
-    frequency_bins.npz
-
-  v1tts/
-    split_config.json
-    train/
-      time_domain_data/
-        td_shard_000.npz
-        td_shard_001.npz
-        ...
-      frequency_domain_data/
-        fd_shard_000.npz
-        fd_shard_001.npz
-        ...
-      labels/
-        labels_shard_000.npz
-        labels_shard_001.npz
-        ...
-    test/
-      time_domain_data/
-        td_shard_000.npz
-        td_shard_001.npz
-        ...
-      frequency_domain_data/
-        fd_shard_000.npz
-        fd_shard_001.npz
-        ...
-      labels/
-        labels_shard_000.npz
-        labels_shard_001.npz
-        ...
-      </code></pre>
-
-<h3>Chunking policy</h3>
-  <p>
-    Beats are extracted using a fixed beat-centered symmetric window. With
-    <code>pre_samples = 180</code>, <code>post_samples = 180</code>, and a sampling rate of
-    <code>360 Hz</code>, each event window contains <code>361</code> samples, which corresponds to
-    approximately <code>1.003 s</code> of signal. This keeps every extracted event on a common length
-    and preserves aligned local waveform context for downstream embedding and retrieval.
-  </p>
-
-  <h3>Frequency-domain preprocessing note</h3>
-  <p>
-    The saved time-domain representation keeps the raw extracted ECG window unchanged. The frequency-domain
-    representation is derived from that same saved window after per-channel mean-centering, followed by a
-    one-sided FFT. This reduces the dominance of the DC component while preserving a consistent spectral view
-    across windows. With <code>N = 361</code> and <code>fs = 360 Hz</code>, the one-sided FFT stores
-    <code>181</code> bins with a frequency resolution of approximately <code>0.997 Hz/bin</code>.
-  </p>
 </section>

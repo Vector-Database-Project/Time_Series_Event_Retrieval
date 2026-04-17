@@ -7,8 +7,10 @@ import matplotlib.pyplot as plt
 
 from sklearn.metrics import (
     accuracy_score,
+    precision_score,
     recall_score,
     f1_score,
+    precision_recall_fscore_support,
     confusion_matrix,
     ConfusionMatrixDisplay,
 )
@@ -20,6 +22,8 @@ class EmbeddingRetrievalEvaluator:
         repo_root,
         dataset_name="ecg",
         run_name=None,
+        embeddings_root=None,
+        evaluation_root=None,
         top_k=(1, 5, 10),
         metric="l2",
         batch_size=512,
@@ -33,23 +37,29 @@ class EmbeddingRetrievalEvaluator:
             Project repo root.
 
         dataset_name : str
-            Dataset folder under results/embeddings/.
+            Dataset folder name.
 
         run_name : str or None
             Name of the saved run folder.
-            If None, the most recently modified run under the dataset folder is used.
+            If None, the most recently modified valid run under embeddings_root is used.
+
+        embeddings_root : str or Path or None
+            Root folder containing saved embedding run directories.
+            Defaults to: repo_root/results/embeddings/{dataset_name}
+
+        evaluation_root : str or Path or None
+            Root folder where evaluation artifacts should be saved.
+            Defaults to: repo_root/results/evaluation/{dataset_name}
 
         top_k : tuple[int]
             K values to evaluate.
 
         metric : str
-            Distance metric used for retrieval.
-            Supported:
-            - "l2"
-            - "cosine"
+            Retrieval distance metric.
+            Supported: 'l2', 'cosine'
 
         batch_size : int
-            Number of query embeddings to process per batch during brute-force search.
+            Query batch size for brute-force search.
         """
         self.repo_root = Path(repo_root)
         self.dataset_name = dataset_name
@@ -64,19 +74,21 @@ class EmbeddingRetrievalEvaluator:
         if self.metric not in {"l2", "cosine"}:
             raise ValueError("metric must be either 'l2' or 'cosine'.")
 
-        self.embeddings_root = self.repo_root / "results" / "embeddings" / self.dataset_name
+        if embeddings_root is None:
+            self.embeddings_root = (
+                self.repo_root / "results" / "embeddings" / self.dataset_name
+            )
+        else:
+            self.embeddings_root = Path(embeddings_root)
+
         self.run_root = self._resolve_run_root()
 
-        # Evaluation outputs will be saved here
-        self.assets_root = (
-            self.repo_root
-            / "src"
-            / "representations"
-            / "assets"
-            / "evaluation"
-            / self.dataset_name
-            / self.run_root.name
-        )
+        if evaluation_root is None:
+            base_eval_root = self.repo_root / "results" / "evaluation" / self.dataset_name
+        else:
+            base_eval_root = Path(evaluation_root)
+
+        self.assets_root = base_eval_root / self.run_root.name
 
         self.Z_train = None
         self.Z_test = None
@@ -86,12 +98,6 @@ class EmbeddingRetrievalEvaluator:
         self.class_labels = None
 
     def _resolve_run_root(self):
-        """
-        Resolve which saved embedding run to evaluate.
-
-        If run_name is provided, use it directly.
-        Otherwise, pick the most recently modified valid run directory.
-        """
         if not self.embeddings_root.exists():
             raise FileNotFoundError(f"Embeddings root not found: {self.embeddings_root}")
 
@@ -125,10 +131,6 @@ class EmbeddingRetrievalEvaluator:
         return candidate_dirs[0]
 
     def _load_npz_array(self, path):
-        """
-        Load one compressed numpy array from a .npz file.
-        Assumes exactly one stored array per file.
-        """
         path = Path(path)
 
         if not path.exists():
@@ -139,15 +141,11 @@ class EmbeddingRetrievalEvaluator:
                 raise ValueError(
                     f"Expected exactly one array in {path}, found {len(data.files)}: {data.files}"
                 )
-
             array = data[data.files[0]]
 
         return array
 
     def load_artifacts(self):
-        """
-        Load saved embeddings and labels for the selected run.
-        """
         file_map = {
             "Z_train": self.run_root / "train_embeddings.npz",
             "Z_test": self.run_root / "test_embeddings.npz",
@@ -193,15 +191,6 @@ class EmbeddingRetrievalEvaluator:
         self.class_labels = np.unique(np.concatenate([self.y_train, self.y_test]))
 
     def _compute_topk_indices(self):
-        """
-        Compute top-K nearest reference indices for every query embedding.
-
-        Returns
-        -------
-        topk_indices : np.ndarray
-            Shape [num_queries, max_k]
-            Each row contains ranked reference indices.
-        """
         max_k = self.top_k[-1]
         num_queries = self.Z_test.shape[0]
         num_refs = self.Z_train.shape[0]
@@ -224,7 +213,6 @@ class EmbeddingRetrievalEvaluator:
             query_batch = self.Z_test[start:end]
 
             if self.metric == "l2":
-                # Squared Euclidean distance, same ranking as Euclidean distance
                 q_sq = np.sum(query_batch ** 2, axis=1, keepdims=True)
                 r_sq = np.sum(ref_matrix ** 2, axis=1)
                 distances = q_sq + r_sq[None, :] - 2.0 * (query_batch @ ref_matrix.T)
@@ -234,7 +222,6 @@ class EmbeddingRetrievalEvaluator:
                 part_dist = distances[row_ids, idx_part]
                 order = np.argsort(part_dist, axis=1)
                 idx_sorted = idx_part[row_ids, order]
-
             else:
                 query_norms = np.linalg.norm(query_batch, axis=1, keepdims=True)
                 query_norms = np.clip(query_norms, a_min=1e-12, a_max=None)
@@ -268,20 +255,12 @@ class EmbeddingRetrievalEvaluator:
         return topk_indices
 
     def _majority_vote_ranked(self, ranked_labels):
-        """
-        Predict one class from a ranked list of retrieved labels.
-
-        Tie-breaking rule:
-        - higher vote count wins
-        - if tied, the label that appears earlier in the ranked neighbor list wins
-        """
         counts = {}
         best_label = None
         best_count = -1
 
         for label in ranked_labels:
             counts[label] = counts.get(label, 0) + 1
-
             if counts[label] > best_count:
                 best_label = label
                 best_count = counts[label]
@@ -289,9 +268,6 @@ class EmbeddingRetrievalEvaluator:
         return int(best_label)
 
     def _predict_labels_from_topk(self, topk_neighbor_labels, k):
-        """
-        Build one predicted label per query from the first K retrieved labels.
-        """
         preds = []
 
         for row in tqdm(
@@ -306,17 +282,11 @@ class EmbeddingRetrievalEvaluator:
         return np.asarray(preds, dtype=np.int64)
 
     def _save_npz_map(self, path, data_map):
-        """
-        Save multiple named arrays into one compressed .npz file.
-        """
         path = Path(path)
         path.parent.mkdir(parents=True, exist_ok=True)
         np.savez_compressed(path, **data_map)
 
     def _save_confusion_matrix(self, cm, labels, k):
-        """
-        Save confusion matrix as both raw numpy data and a PNG figure.
-        """
         self.assets_root.mkdir(parents=True, exist_ok=True)
 
         npy_path = self.assets_root / f"confusion_matrix_k_{k:03d}.npz"
@@ -338,6 +308,26 @@ class EmbeddingRetrievalEvaluator:
         fig.savefig(png_path, dpi=200, bbox_inches="tight")
         plt.close(fig)
 
+    def _build_per_class_metrics(self, y_true, y_pred):
+        precision, recall, f1, support = precision_recall_fscore_support(
+            y_true,
+            y_pred,
+            labels=self.class_labels,
+            average=None,
+            zero_division=0,
+        )
+
+        per_class = {}
+        for idx, label in enumerate(self.class_labels):
+            per_class[str(int(label))] = {
+                "precision": float(precision[idx]),
+                "recall": float(recall[idx]),
+                "f1": float(f1[idx]),
+                "support": int(support[idx]),
+            }
+
+        return per_class
+
     def evaluate(self):
         """
         Run full evaluation and save outputs.
@@ -345,6 +335,7 @@ class EmbeddingRetrievalEvaluator:
         Saved outputs
         -------------
         - metrics_at_k.json
+        - classification_report_at_k.json
         - eval_config.json
         - topk_neighbor_indices.npz
         - topk_neighbor_labels.npz
@@ -370,12 +361,14 @@ class EmbeddingRetrievalEvaluator:
 
         predictions_by_k = {}
         metrics_at_k = {}
+        classification_report_at_k = {}
 
         for k in self.top_k:
             y_pred = self._predict_labels_from_topk(topk_neighbor_labels, k)
             predictions_by_k[f"k_{k:03d}"] = y_pred
 
             acc = float(accuracy_score(self.y_test, y_pred))
+            prec = float(precision_score(self.y_test, y_pred, average="macro", zero_division=0))
             rec = float(recall_score(self.y_test, y_pred, average="macro", zero_division=0))
             f1 = float(f1_score(self.y_test, y_pred, average="macro", zero_division=0))
 
@@ -384,8 +377,18 @@ class EmbeddingRetrievalEvaluator:
 
             metrics_at_k[f"k_{k}"] = {
                 "accuracy": acc,
+                "macro_precision": prec,
                 "macro_recall": rec,
                 "macro_f1": f1,
+            }
+
+            classification_report_at_k[f"k_{k}"] = {
+                "macro": {
+                    "precision": prec,
+                    "recall": rec,
+                    "f1": f1,
+                },
+                "per_class": self._build_per_class_metrics(self.y_test, y_pred),
             }
 
         self._save_npz_map(
@@ -396,6 +399,9 @@ class EmbeddingRetrievalEvaluator:
         with open(self.assets_root / "metrics_at_k.json", "w", encoding="utf-8") as f:
             json.dump(metrics_at_k, f, indent=4)
 
+        with open(self.assets_root / "classification_report_at_k.json", "w", encoding="utf-8") as f:
+            json.dump(classification_report_at_k, f, indent=4)
+
         eval_config = {
             "dataset_name": self.dataset_name,
             "run_name": self.run_root.name,
@@ -404,6 +410,7 @@ class EmbeddingRetrievalEvaluator:
             "metric": self.metric,
             "top_k": list(self.top_k),
             "batch_size": self.batch_size,
+            "class_labels": [int(x) for x in self.class_labels.tolist()],
         }
 
         if self.run_config is not None:

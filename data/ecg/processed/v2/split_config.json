@@ -1,0 +1,114 @@
+{
+  "sampling_rate": 360,
+  "window_pre_annotation": 180,
+  "window_post_annotation": 180,
+  "window_length": 361,
+  "coarse_label_map": {
+    "N": 0,
+    "S": 1,
+    "V": 2
+  },
+  "detail_to_coarse": {
+    "N": "N",
+    "L": "N",
+    "R": "N",
+    "e": "N",
+    "j": "N",
+    "A": "S",
+    "a": "S",
+    "J": "S",
+    "S": "S",
+    "V": "V",
+    "E": "V"
+  },
+  "dropped_symbols": [
+    "F",
+    "/",
+    "f",
+    "Q",
+    "[",
+    "!",
+    "]",
+    "x",
+    "|"
+  ],
+  "record_shuffle_seed": 42,
+  "train_sampling_seed": 123,
+  "test_sampling_seed": 456,
+  "train_target_per_class": 2250,
+  "test_target_per_class": 250,
+  "train_record_ids": [
+    "219",
+    "209",
+    "232",
+    "214",
+    "105",
+    "234",
+    "231",
+    "201",
+    "122",
+    "207",
+    "118",
+    "230",
+    "119",
+    "107",
+    "104",
+    "220",
+    "208"
+  ],
+  "test_record_ids": [
+    "123",
+    "212",
+    "109",
+    "202",
+    "200",
+    "221",
+    "117",
+    "222"
+  ],
+  "unused_record_ids": [
+    "100",
+    "101",
+    "102",
+    "103",
+    "106",
+    "108",
+    "111",
+    "112",
+    "113",
+    "114",
+    "115",
+    "116",
+    "121",
+    "124",
+    "203",
+    "205",
+    "210",
+    "213",
+    "215",
+    "217",
+    "223",
+    "228",
+    "233"
+  ],
+  "train_inventory_counts": {
+    "N": 29205,
+    "S": 2250,
+    "V": 2289
+  },
+  "test_inventory_counts": {
+    "N": 16389,
+    "S": 295,
+    "V": 1282
+  },
+  "train_final_counts": {
+    "N": 2250,
+    "S": 2250,
+    "V": 2250
+  },
+  "test_final_counts": {
+    "N": 250,
+    "S": 250,
+    "V": 250
+  }
+}

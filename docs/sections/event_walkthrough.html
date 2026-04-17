@@ -1,10 +1,10 @@
 <section id="event-walkthrough">
   <h2>Single-Event Walkthrough</h2>
   <p>
-    A record-level walkthrough is prepared for one valid event from record 100. This is the cleanest way to show exactly
-    how a raw annotated beat becomes a stored time-domain sample and then a frequency-domain sample.
+    The figure below illustrates the preprocessing path for one valid event from record 100. The purpose of this
+    section is to show the concrete relationship between the raw ECG trace, the saved beat-centered time-domain window,
+    the centered waveform used for FFT, and the final stored frequency representation.
   </p>
-
 
   <table>
     <thead>
@@ -18,31 +18,23 @@
       <tr><td>Annotation sample</td><td>370</td></tr>
       <tr><td>Beat label</td><td>N</td></tr>
       <tr><td>Lead used in figure</td><td>MLII (index 0)</td></tr>
-      <tr><td>TD chunk length</td><td>361 samples</td></tr>
-      <tr><td>TD duration</td><td>1.0028 s</td></tr>
+      <tr><td>Time-domain clip length</td><td>361 samples</td></tr>
+      <tr><td>Approximate duration</td><td>1.003 s</td></tr>
       <tr><td>Sampling rate</td><td>360 Hz</td></tr>
-      <tr><td>Raw context range</td><td>[10, 731) samples</td></tr>
-      <tr><td>TD clip range</td><td>[190, 551) samples</td></tr>
-      <tr><td>TD mean before FFT</td><td>-0.309875</td></tr>
-      <tr><td>TD mean after centering</td><td>-0.000000</td></tr>
       <tr><td>FFT bins stored</td><td>181</td></tr>
-      <tr><td>Dominant non-DC bin</td><td>4.986 Hz</td></tr>
+      <tr><td>Illustrated stages</td><td>raw context, extracted clip, centered clip, one-sided spectrum</td></tr>
     </tbody>
   </table>
 
-    <figure>
+  <figure>
     <img
       src="assets/ecg_pipeline_evolution_record_100_lead_0.png"
       alt="Single-event ECG walkthrough for record 100 showing raw context, extracted time-domain clip, centered waveform, and one-sided frequency-domain spectrum"
       class="figure-lg"
     />
+    <figcaption>
+      Example preprocessing path for one retained event. The same extraction and conversion policy is applied uniformly
+      across all benchmark samples.
+    </figcaption>
   </figure>
-
-  <h3>What this figure communicates</h3>
-  <ul class="figure-list">
-    <li>the annotation-centered extraction region inside a larger raw context window</li>
-    <li>the exact saved TD clip that becomes one retrieval unit</li>
-    <li>the centered TD waveform used for spectral conversion</li>
-    <li>the stored one-sided frequency view with 181 bins</li>
-  </ul>
 </section>

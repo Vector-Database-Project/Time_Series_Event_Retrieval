@@ -1,129 +1,199 @@
 <section id="results">
-  <h2>Current Results</h2>
+  <h2>Results</h2>
   <p>
-    The first completed retrieval sweep covers four Gaussian Random Projection runs:
-    time-domain and frequency-domain inputs, each at 64 and 128 projected dimensions.
+    The full 18-run evaluation matrix produces a clear pattern. Frequency-domain inputs are consistently stronger than
+    time-domain inputs, and the best overall retrieval performance is achieved by the simplest method family,
+    Gaussian Random Projection. The learned UMAP variants do not outperform that baseline in the current benchmark.
   </p>
 
   <div class="summary-grid">
     <div class="summary-card">
       <span class="label">Best run</span>
-      <span class="value mono">time_128</span>
+      <span class="value mono">grp_frequency_064</span>
     </div>
     <div class="summary-card">
-      <span class="label">Accuracy@1</span>
-      <span class="value">0.9814</span>
+      <span class="label">Best K</span>
+      <span class="value mono">10</span>
     </div>
     <div class="summary-card">
-      <span class="label">Macro Recall@1</span>
-      <span class="value">0.6379</span>
+      <span class="label">Accuracy</span>
+      <span class="value mono">0.7253</span>
     </div>
     <div class="summary-card">
-      <span class="label">Macro F1@1</span>
-      <span class="value">0.6552</span>
+      <span class="label">Macro Precision</span>
+      <span class="value mono">0.7406</span>
+    </div>
+    <div class="summary-card">
+      <span class="label">Macro Recall</span>
+      <span class="value mono">0.7253</span>
+    </div>
+    <div class="summary-card">
+      <span class="label">Macro F1</span>
+      <span class="value mono">0.7287</span>
     </div>
   </div>
 
-  <h3>Top-1 comparison</h3>
+  <h3>Best run per method family</h3>
   <table class="metric-table">
     <thead>
       <tr>
-        <th>Run</th>
-        <th class="num">Accuracy@1</th>
-        <th class="num">Recall@1</th>
-        <th class="num">F1@1</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><code>grp_time_128</code></td>
-        <td class="num"><strong>0.9814</strong></td>
-        <td class="num"><strong>0.6379</strong></td>
-        <td class="num"><strong>0.6552</strong></td>
-      </tr>
-      <tr>
-        <td><code>grp_time_064</code></td>
-        <td class="num">0.9799</td>
-        <td class="num">0.6329</td>
-        <td class="num">0.6449</td>
-      </tr>
-      <tr>
-        <td><code>grp_frequency_128</code></td>
-        <td class="num">0.9702</td>
-        <td class="num">0.5801</td>
-        <td class="num">0.5976</td>
-      </tr>
-      <tr>
-        <td><code>grp_frequency_064</code></td>
-        <td class="num">0.9642</td>
-        <td class="num">0.6113</td>
-        <td class="num">0.6357</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <h3>Full recorded metrics</h3>
-  <table class="metric-table">
-    <thead>
-      <tr>
-        <th>Run</th>
-        <th>K</th>
+        <th>Method family</th>
+        <th>Best run</th>
+        <th>Best K</th>
         <th class="num">Accuracy</th>
-        <th class="num">Macro Recall</th>
+        <th class="num">Macro precision</th>
+        <th class="num">Macro recall</th>
         <th class="num">Macro F1</th>
       </tr>
     </thead>
     <tbody>
-      <tr><td rowspan="3"><code>grp_time_064</code></td><td>1</td><td class="num">0.9799</td><td class="num">0.6329</td><td class="num">0.6449</td></tr>
-      <tr><td>5</td><td class="num">0.9780</td><td class="num">0.5952</td><td class="num">0.6414</td></tr>
-      <tr><td>10</td><td class="num">0.9738</td><td class="num">0.5372</td><td class="num">0.5788</td></tr>
-
-      <tr><td rowspan="3"><code>grp_time_128</code></td><td>1</td><td class="num">0.9814</td><td class="num">0.6379</td><td class="num">0.6552</td></tr>
-      <tr><td>5</td><td class="num">0.9789</td><td class="num">0.5832</td><td class="num">0.6203</td></tr>
-      <tr><td>10</td><td class="num">0.9756</td><td class="num">0.5453</td><td class="num">0.5893</td></tr>
-
-      <tr><td rowspan="3"><code>grp_frequency_064</code></td><td>1</td><td class="num">0.9642</td><td class="num">0.6113</td><td class="num">0.6357</td></tr>
-      <tr><td>5</td><td class="num">0.9678</td><td class="num">0.5271</td><td class="num">0.5629</td></tr>
-      <tr><td>10</td><td class="num">0.9659</td><td class="num">0.5101</td><td class="num">0.5508</td></tr>
-
-      <tr><td rowspan="3"><code>grp_frequency_128</code></td><td>1</td><td class="num">0.9702</td><td class="num">0.5801</td><td class="num">0.5976</td></tr>
-      <tr><td>5</td><td class="num">0.9710</td><td class="num">0.5552</td><td class="num">0.5931</td></tr>
-      <tr><td>10</td><td class="num">0.9695</td><td class="num">0.5265</td><td class="num">0.5629</td></tr>
+      <tr>
+        <td>Gaussian Random Projection</td>
+        <td><code>grp_frequency_064</code></td>
+        <td>10</td>
+        <td class="num">0.7253</td>
+        <td class="num">0.7406</td>
+        <td class="num">0.7253</td>
+        <td class="num"><strong>0.7287</strong></td>
+      </tr>
+      <tr>
+        <td>UMAP</td>
+        <td><code>umap_mixed_nn15_dim64</code></td>
+        <td>5</td>
+        <td class="num">0.5907</td>
+        <td class="num">0.6538</td>
+        <td class="num">0.5907</td>
+        <td class="num">0.5930</td>
+      </tr>
+      <tr>
+        <td>Supervised UMAP</td>
+        <td><code>sup_umap_mixed_nn15_dim128</code></td>
+        <td>1</td>
+        <td class="num">0.5573</td>
+        <td class="num">0.6307</td>
+        <td class="num">0.5573</td>
+        <td class="num">0.5490</td>
+      </tr>
     </tbody>
   </table>
-<h3>Best-Run Confusion Matrices</h3>
 
-<figure>
-  <img
-    src="assets/grp_time_128/confusion_matrix_k_001.png"
-    alt="Confusion matrix for best run at k equals 1"
-    class="figure-lg"
-  />
-  <figcaption>Best recorded run confusion matrix at <code>k = 1</code>.</figcaption>
-</figure>
+  <h3>Representation trend</h3>
+  <p>
+    Frequency-domain inputs are the strongest representation family in the current benchmark. The two strongest runs in
+    the full matrix are both frequency-based GRP models, and the best frequency-based UMAP run is also stronger than the
+    time-only UMAP runs. Mixed inputs are generally intermediate, while raw time-domain inputs are the weakest overall.
+  </p>
 
-<figure>
-  <img
-    src="assets/grp_time_128/confusion_matrix_k_005.png"
-    alt="Confusion matrix for best run at k equals 5"
-    class="figure-lg"
-  />
-  <figcaption>Best recorded run confusion matrix at <code>k = 5</code>.</figcaption>
-</figure>
+  <table class="metric-table">
+    <thead>
+      <tr>
+        <th>Representative run</th>
+        <th>Best K</th>
+        <th class="num">Macro F1</th>
+        <th>Interpretation</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>grp_frequency_064</code></td>
+        <td>10</td>
+        <td class="num"><strong>0.7287</strong></td>
+        <td>strongest overall frequency result</td>
+      </tr>
+      <tr>
+        <td><code>grp_mixed_064</code></td>
+        <td>5</td>
+        <td class="num">0.6319</td>
+        <td>mixed improves over time but does not surpass frequency</td>
+      </tr>
+      <tr>
+        <td><code>grp_time_064</code></td>
+        <td>1</td>
+        <td class="num">0.5889</td>
+        <td>time-only representation is weaker and degrades as K grows</td>
+      </tr>
+    </tbody>
+  </table>
 
-<figure>
-  <img
-    src="assets/grp_time_128/confusion_matrix_k_010.png"
-    alt="Confusion matrix for best run at k equals 10"
-    class="figure-lg"
-  />
-  <figcaption>Best recorded run confusion matrix at <code>k = 10</code>.</figcaption>
-</figure>
+  <h3>Dimension trend</h3>
+  <p>
+    The 64-dimensional setting is often as good as or better than the 128-dimensional setting. The best overall run,
+    <code>grp_frequency_064</code>, outperforms its 128-dimensional counterpart, and the strongest UMAP result also comes
+    from the 64-dimensional mixed setting. Larger embeddings therefore do not provide a consistent advantage here.
+  </p>
 
-  <h3>Current observations</h3>
-  <ul>
-    <li><strong>Time-domain inputs are currently stronger</strong> than frequency-domain inputs in the completed GRP sweep.</li>
-    <li><strong>128 dimensions improves over 64</strong> for both time and frequency in the current runs.</li>
-    <li><strong>K = 1 is currently the strongest setting</strong> across the recorded runs.</li>
-  </ul>
+  <h3>Neighborhood behavior across K</h3>
+  <p>
+    The effect of increasing K depends on the quality of the embedding neighborhood. For the strongest frequency-based
+    GRP run, performance improves steadily from K = 1 to K = 10, indicating stable class-consistent neighborhoods. By
+    contrast, several time-domain runs degrade as K increases, suggesting that their local neighborhoods become less pure
+    when more neighbors are considered.
+  </p>
+
+  <h3>Selected confusion matrices</h3>
+  <p>
+    The following confusion matrices are sufficient to illustrate the key behaviors of the benchmark without bloating the
+    report: the strongest overall run at a low and high K, the strongest UMAP-family run, and a weak supervised time-domain
+    run for contrast.
+  </p>
+
+  <figure>
+    <img
+      src="assets/grp_frequency_064/confusion_matrix_k_001.png"
+      alt="Confusion matrix for grp_frequency_064 at k equals 1"
+      class="figure-lg"
+    />
+    <figcaption>
+      <code>grp_frequency_064</code> at <code>K = 1</code>, showing the strongest single-neighbor retrieval behavior.
+    </figcaption>
+  </figure>
+
+  <figure>
+    <img
+      src="assets/grp_frequency_064/confusion_matrix_k_010.png"
+      alt="Confusion matrix for grp_frequency_064 at k equals 10"
+      class="figure-lg"
+    />
+    <figcaption>
+      <code>grp_frequency_064</code> at <code>K = 10</code>, corresponding to the best overall macro F1 in the matrix.
+    </figcaption>
+  </figure>
+
+  <figure>
+    <img
+      src="assets/umap_mixed_nn15_dim64/confusion_matrix_k_005.png"
+      alt="Confusion matrix for umap_mixed_nn15_dim64 at k equals 5"
+      class="figure-lg"
+    />
+    <figcaption>
+      <code>umap_mixed_nn15_dim64</code> at <code>K = 5</code>, the strongest UMAP-family result in the benchmark.
+    </figcaption>
+  </figure>
+
+  <figure>
+    <img
+      src="assets/sup_umap_time_nn15_dim128/confusion_matrix_k_010.png"
+      alt="Confusion matrix for sup_umap_time_nn15_dim128 at k equals 10"
+      class="figure-lg"
+    />
+    <figcaption>
+      <code>sup_umap_time_nn15_dim128</code> at <code>K = 10</code>, illustrating the weakest supervised time-domain case.
+    </figcaption>
+  </figure>
+
+  <h3>Interpretation</h3>
+  <p>
+    The final result of the benchmark is not that a more complex embedding model automatically improves retrieval.
+    Instead, the stronger result is that representation choice matters more than model complexity in the tested setup.
+    Frequency-domain preprocessing is the strongest of the examined views, and a simple random projection baseline
+    preserves retrieval-relevant structure better than the UMAP-based alternatives under the current leakage-aware split.
+  </p>
+
+  <h3>Scope and limitation</h3>
+  <p>
+    These conclusions apply to the current ECG benchmark only: the coarse <code>N/S/V</code> label space, the balanced
+    record-aware split, the tested time/frequency/mixed representations, the 64 and 128 dimensional settings, and the
+    nearest-neighbor retrieval evaluator used here. The report therefore presents a controlled benchmark finding rather
+    than a universal claim about all time-series retrieval problems.
+  </p>
 </section>

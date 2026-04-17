@@ -1,0 +1,36 @@
+{
+    "dataset_name": "ecg_v2",
+    "run_name": "umap_time_nn15_dim128",
+    "run_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\embeddings\\ecg_v2\\umap_time_nn15_dim128",
+    "assets_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\evaluations\\ecg_v2\\umap_time_nn15_dim128",
+    "metric": "l2",
+    "top_k": [
+        1,
+        5,
+        10
+    ],
+    "batch_size": 512,
+    "class_labels": [
+        0,
+        1,
+        2
+    ],
+    "run_config": {
+        "method": "UMAP",
+        "supervised": false,
+        "input_mode": "time",
+        "n_components": 128,
+        "n_neighbors": 15,
+        "min_dist": 0.1,
+        "metric": "euclidean",
+        "low_memory": false,
+        "verbose": true,
+        "n_jobs": -1,
+        "train_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\data\\ecg\\processed\\v2\\train",
+        "test_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\data\\ecg\\processed\\v2\\test",
+        "output_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\embeddings\\ecg_v2\\umap_time_nn15_dim128",
+        "retrieval_pool": "full_train",
+        "query_split": "full_test",
+        "fit_policy": "UMAP_fit_on_full_train_transform_full_train_test"
+    }
+}

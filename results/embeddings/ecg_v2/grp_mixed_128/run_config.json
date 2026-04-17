@@ -1,0 +1,13 @@
+{
+    "method": "GaussianRandomProjection",
+    "n_components": 128,
+    "random_state": 42,
+    "train_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\data\\ecg\\processed\\v2\\train",
+    "test_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\data\\ecg\\processed\\v2\\test",
+    "output_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\embeddings\\ecg_v2\\grp_mixed_128",
+    "representation": "mixed",
+    "extract_policy": "custom_runner_shared_loader",
+    "retrieval_pool": "full_train",
+    "query_split": "full_test",
+    "fit_policy": "GRP_fit_on_full_train_transform_full_train_test"
+}

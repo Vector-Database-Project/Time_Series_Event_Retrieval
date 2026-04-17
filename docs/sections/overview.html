@@ -1,44 +1,57 @@
 <section id="overview">
   <h2>Overview</h2>
-
   <p>
-    Time-series event retrieval aims to find past signal events that are similar to a query event. In this project,
-    fixed event windows are converted into vector representations so they can be compared through nearest-neighbor
-    retrieval. This page documents the <strong>current ECG implementation</strong> of the broader time-series event
-    retrieval project. The original project direction is cross-domain, but the present deployed content reflects what
-    has actually been built and evaluated so far.
+    This project studies time-series event retrieval using a controlled ECG benchmark derived from the MIT-BIH
+    Arrhythmia Database. The central question is whether retrieval quality is shaped more by the chosen signal
+    representation or by the embedding method applied downstream.
+  </p>
+  <p>
+    To make that comparison clean, the final benchmark uses a leakage-aware record-level split, a coarse three-class
+    label space, fixed beat-centered windows, and a common nearest-neighbor retrieval evaluator applied uniformly to
+    all runs. The report therefore focuses on one reproducible experimental setting rather than a loose collection of
+    ad hoc trials.
   </p>
 
   <div class="summary-grid">
     <div class="summary-card">
-      <span class="label">Current dataset</span>
+      <span class="label">Dataset</span>
       <span class="value">MIT-BIH ECG</span>
     </div>
     <div class="summary-card">
-      <span class="label">Processed split</span>
-      <span class="value mono">processed/v1tts</span>
+      <span class="label">Benchmark labels</span>
+      <span class="value mono">N / S / V</span>
     </div>
     <div class="summary-card">
-      <span class="label">Implemented baseline</span>
-      <span class="value">Gaussian Random Projection</span>
+      <span class="label">Train / test size</span>
+      <span class="value mono">6750 / 750</span>
     </div>
     <div class="summary-card">
-      <span class="label">Best recorded run</span>
-      <span class="value mono">time_128</span>
+      <span class="label">Embedding matrix</span>
+      <span class="value mono">18 runs</span>
+    </div>
+    <div class="summary-card">
+      <span class="label">Best run</span>
+      <span class="value mono">grp_frequency_064</span>
+    </div>
+    <div class="summary-card">
+      <span class="label">Best macro F1</span>
+      <span class="value mono">0.7287 @ K=10</span>
     </div>
   </div>
 
+  <h3>Problem framing</h3>
   <p>
-    The current implemented scope includes ECG preprocessing, a saved train/test split, a single-event walkthrough,
-    a Gaussian Random Projection embedding baseline, and a common retrieval evaluation path with saved metrics and
-    confusion-matrix artifacts.
+    The project is not framed as a single-model optimization task. Instead, it treats retrieval as a pipeline problem
+    with three linked stages: preprocessing, embedding, and evaluation. The preprocessing stage defines what each event
+    looks like. The embedding stage determines how events are represented numerically. The evaluator then tests whether
+    those embeddings recover the correct class neighborhoods under nearest-neighbor retrieval.
   </p>
 
+  <h3>Final report focus</h3>
   <ul>
-    <li>Raw MIT-BIH records are converted into fixed beat-centered event windows.</li>
-    <li>Aligned time-domain and frequency-domain views are saved to disk.</li>
-    <li>A stratified random train/test split is materialized at <code>processed/v1tts</code>.</li>
-    <li>Gaussian random projection has been run for time and frequency inputs at 64 and 128 dimensions.</li>
-    <li>Evaluation currently reports Accuracy@K, Recall@K, F1@K, and confusion matrices.</li>
+    <li>define the final leakage-aware ECG benchmark and its preprocessing policy</li>
+    <li>describe the compared embedding families and representation choices</li>
+    <li>report the retrieval results for the full 18-run matrix</li>
+    <li>identify the benchmark-specific conclusion supported by the observed metrics</li>
   </ul>
 </section>

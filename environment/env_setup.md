@@ -32,6 +32,7 @@ conda env update -f environment/env.yaml --prune
 
 | Package | Use |
 |---|---|
+|`python` | 3.11 |
 | `numpy` | numerical arrays and sample storage |
 | `pandas` | metadata tables |
 | `pyarrow` | Parquet support |
@@ -44,6 +45,7 @@ conda env update -f environment/env.yaml --prune
 | `pyyaml` | config files |
 | `wfdb` | waveform dataset reading |
 | `pip`  | pip dependent packages install |
+| `umap-learn` | package for unsupervised and supervised learning modules |
 
 ## Note
 

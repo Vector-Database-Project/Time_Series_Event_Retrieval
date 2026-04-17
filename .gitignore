@@ -21,4 +21,14 @@ Thumbs.db
 .env.local
 
 # Database files
-data/*
+data/ecg/raw/*
+data/ecg/processed/v1/*
+data/ecg/processed/v1tts/*
+
+
+# Embeddings
+results/embeddings/ecg/*
+
+# V1 files
+results/evaluations/ecg/*
+results/embeddings/ecg/*

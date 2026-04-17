@@ -1,0 +1,19 @@
+{
+    "method": "UMAP",
+    "supervised": true,
+    "input_mode": "mixed",
+    "n_components": 64,
+    "n_neighbors": 15,
+    "min_dist": 0.1,
+    "metric": "euclidean",
+    "target_metric": "categorical",
+    "low_memory": false,
+    "verbose": true,
+    "train_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\data\\ecg\\processed\\v2\\train",
+    "test_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\data\\ecg\\processed\\v2\\test",
+    "output_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\embeddings\\ecg_v2\\sup_umap_mixed_nn15_dim64",
+    "n_jobs": -1,
+    "retrieval_pool": "full_train",
+    "query_split": "full_test",
+    "fit_policy": "Supervised_UMAP_fit_on_full_train_transform_full_train_test"
+}

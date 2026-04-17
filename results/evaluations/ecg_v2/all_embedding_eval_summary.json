@@ -1,0 +1,484 @@
+{
+    "dataset_name": "ecg_v2",
+    "repo_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval",
+    "embeddings_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\embeddings\\ecg_v2",
+    "evaluation_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\evaluations\\ecg_v2",
+    "top_k": [
+        1,
+        5,
+        10
+    ],
+    "metric": "l2",
+    "batch_size": 512,
+    "overwrite_existing": false,
+    "runs": [
+        {
+            "run_name": "grp_frequency_064",
+            "status": "success",
+            "run_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\embeddings\\ecg_v2\\grp_frequency_064",
+            "assets_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\evaluations\\ecg_v2\\grp_frequency_064",
+            "metrics_at_k": {
+                "k_1": {
+                    "accuracy": 0.664,
+                    "macro_precision": 0.6866688116688117,
+                    "macro_recall": 0.664,
+                    "macro_f1": 0.666642432900825
+                },
+                "k_5": {
+                    "accuracy": 0.72,
+                    "macro_precision": 0.7344753798887876,
+                    "macro_recall": 0.7199999999999999,
+                    "macro_f1": 0.722369115996567
+                },
+                "k_10": {
+                    "accuracy": 0.7253333333333334,
+                    "macro_precision": 0.7406431441915312,
+                    "macro_recall": 0.7253333333333334,
+                    "macro_f1": 0.7286618755757098
+                }
+            }
+        },
+        {
+            "run_name": "grp_frequency_128",
+            "status": "success",
+            "run_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\embeddings\\ecg_v2\\grp_frequency_128",
+            "assets_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\evaluations\\ecg_v2\\grp_frequency_128",
+            "metrics_at_k": {
+                "k_1": {
+                    "accuracy": 0.6546666666666666,
+                    "macro_precision": 0.6797749295577676,
+                    "macro_recall": 0.6546666666666666,
+                    "macro_f1": 0.6532296574726836
+                },
+                "k_5": {
+                    "accuracy": 0.676,
+                    "macro_precision": 0.7117311617532563,
+                    "macro_recall": 0.676,
+                    "macro_f1": 0.6772031502985644
+                },
+                "k_10": {
+                    "accuracy": 0.684,
+                    "macro_precision": 0.719121453332218,
+                    "macro_recall": 0.684,
+                    "macro_f1": 0.6880300044747475
+                }
+            }
+        },
+        {
+            "run_name": "grp_mixed_064",
+            "status": "success",
+            "run_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\embeddings\\ecg_v2\\grp_mixed_064",
+            "assets_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\evaluations\\ecg_v2\\grp_mixed_064",
+            "metrics_at_k": {
+                "k_1": {
+                    "accuracy": 0.6226666666666667,
+                    "macro_precision": 0.6558968259920783,
+                    "macro_recall": 0.6226666666666666,
+                    "macro_f1": 0.6283116240354548
+                },
+                "k_5": {
+                    "accuracy": 0.6293333333333333,
+                    "macro_precision": 0.6732440889899731,
+                    "macro_recall": 0.6293333333333333,
+                    "macro_f1": 0.6318657680618195
+                },
+                "k_10": {
+                    "accuracy": 0.608,
+                    "macro_precision": 0.6576486671223513,
+                    "macro_recall": 0.608,
+                    "macro_f1": 0.6134148806265527
+                }
+            }
+        },
+        {
+            "run_name": "grp_mixed_128",
+            "status": "success",
+            "run_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\embeddings\\ecg_v2\\grp_mixed_128",
+            "assets_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\evaluations\\ecg_v2\\grp_mixed_128",
+            "metrics_at_k": {
+                "k_1": {
+                    "accuracy": 0.5973333333333334,
+                    "macro_precision": 0.6366898842870482,
+                    "macro_recall": 0.5973333333333334,
+                    "macro_f1": 0.5984973727600088
+                },
+                "k_5": {
+                    "accuracy": 0.6053333333333333,
+                    "macro_precision": 0.6428313077038381,
+                    "macro_recall": 0.6053333333333334,
+                    "macro_f1": 0.5979998883141785
+                },
+                "k_10": {
+                    "accuracy": 0.6053333333333333,
+                    "macro_precision": 0.663473617089112,
+                    "macro_recall": 0.6053333333333334,
+                    "macro_f1": 0.5968157168157168
+                }
+            }
+        },
+        {
+            "run_name": "grp_time_064",
+            "status": "success",
+            "run_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\embeddings\\ecg_v2\\grp_time_064",
+            "assets_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\evaluations\\ecg_v2\\grp_time_064",
+            "metrics_at_k": {
+                "k_1": {
+                    "accuracy": 0.6,
+                    "macro_precision": 0.6918093165144207,
+                    "macro_recall": 0.6000000000000001,
+                    "macro_f1": 0.5889413936817658
+                },
+                "k_5": {
+                    "accuracy": 0.5586666666666666,
+                    "macro_precision": 0.669967127058651,
+                    "macro_recall": 0.5586666666666668,
+                    "macro_f1": 0.5389020399920572
+                },
+                "k_10": {
+                    "accuracy": 0.5306666666666666,
+                    "macro_precision": 0.6476202366747555,
+                    "macro_recall": 0.5306666666666667,
+                    "macro_f1": 0.5082824343093099
+                }
+            }
+        },
+        {
+            "run_name": "grp_time_128",
+            "status": "success",
+            "run_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\embeddings\\ecg_v2\\grp_time_128",
+            "assets_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\evaluations\\ecg_v2\\grp_time_128",
+            "metrics_at_k": {
+                "k_1": {
+                    "accuracy": 0.5933333333333334,
+                    "macro_precision": 0.6759075362651918,
+                    "macro_recall": 0.5933333333333333,
+                    "macro_f1": 0.582641492790202
+                },
+                "k_5": {
+                    "accuracy": 0.5653333333333334,
+                    "macro_precision": 0.6603243754589925,
+                    "macro_recall": 0.5653333333333334,
+                    "macro_f1": 0.5464719685086213
+                },
+                "k_10": {
+                    "accuracy": 0.5653333333333334,
+                    "macro_precision": 0.6706153449923974,
+                    "macro_recall": 0.5653333333333334,
+                    "macro_f1": 0.5495735029924022
+                }
+            }
+        },
+        {
+            "run_name": "sup_umap_frequency_nn15_dim128",
+            "status": "success",
+            "run_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\embeddings\\ecg_v2\\sup_umap_frequency_nn15_dim128",
+            "assets_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\evaluations\\ecg_v2\\sup_umap_frequency_nn15_dim128",
+            "metrics_at_k": {
+                "k_1": {
+                    "accuracy": 0.5373333333333333,
+                    "macro_precision": 0.5973961146298752,
+                    "macro_recall": 0.5373333333333333,
+                    "macro_f1": 0.5330370936966137
+                },
+                "k_5": {
+                    "accuracy": 0.5386666666666666,
+                    "macro_precision": 0.5993265894301975,
+                    "macro_recall": 0.5386666666666667,
+                    "macro_f1": 0.5340839077449775
+                },
+                "k_10": {
+                    "accuracy": 0.5386666666666666,
+                    "macro_precision": 0.5981627719580983,
+                    "macro_recall": 0.5386666666666667,
+                    "macro_f1": 0.5337982130925562
+                }
+            }
+        },
+        {
+            "run_name": "sup_umap_frequency_nn15_dim64",
+            "status": "success",
+            "run_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\embeddings\\ecg_v2\\sup_umap_frequency_nn15_dim64",
+            "assets_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\evaluations\\ecg_v2\\sup_umap_frequency_nn15_dim64",
+            "metrics_at_k": {
+                "k_1": {
+                    "accuracy": 0.5546666666666666,
+                    "macro_precision": 0.6236052009456264,
+                    "macro_recall": 0.5546666666666668,
+                    "macro_f1": 0.5461693690317015
+                },
+                "k_5": {
+                    "accuracy": 0.5506666666666666,
+                    "macro_precision": 0.6180333546462063,
+                    "macro_recall": 0.5506666666666667,
+                    "macro_f1": 0.5433048045878086
+                },
+                "k_10": {
+                    "accuracy": 0.5506666666666666,
+                    "macro_precision": 0.6168877934301449,
+                    "macro_recall": 0.5506666666666667,
+                    "macro_f1": 0.5430274125464865
+                }
+            }
+        },
+        {
+            "run_name": "sup_umap_mixed_nn15_dim128",
+            "status": "success",
+            "run_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\embeddings\\ecg_v2\\sup_umap_mixed_nn15_dim128",
+            "assets_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\evaluations\\ecg_v2\\sup_umap_mixed_nn15_dim128",
+            "metrics_at_k": {
+                "k_1": {
+                    "accuracy": 0.5573333333333333,
+                    "macro_precision": 0.6307370181033013,
+                    "macro_recall": 0.5573333333333333,
+                    "macro_f1": 0.5489501512423107
+                },
+                "k_5": {
+                    "accuracy": 0.556,
+                    "macro_precision": 0.6293818432252406,
+                    "macro_recall": 0.556,
+                    "macro_f1": 0.5471967086307812
+                },
+                "k_10": {
+                    "accuracy": 0.5573333333333333,
+                    "macro_precision": 0.6300458001791494,
+                    "macro_recall": 0.5573333333333333,
+                    "macro_f1": 0.5484378416718735
+                }
+            }
+        },
+        {
+            "run_name": "sup_umap_mixed_nn15_dim64",
+            "status": "success",
+            "run_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\embeddings\\ecg_v2\\sup_umap_mixed_nn15_dim64",
+            "assets_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\evaluations\\ecg_v2\\sup_umap_mixed_nn15_dim64",
+            "metrics_at_k": {
+                "k_1": {
+                    "accuracy": 0.5533333333333333,
+                    "macro_precision": 0.6238217880997268,
+                    "macro_recall": 0.5533333333333333,
+                    "macro_f1": 0.5442720130134496
+                },
+                "k_5": {
+                    "accuracy": 0.5546666666666666,
+                    "macro_precision": 0.6244855020091274,
+                    "macro_recall": 0.5546666666666668,
+                    "macro_f1": 0.5455125292249717
+                },
+                "k_10": {
+                    "accuracy": 0.5546666666666666,
+                    "macro_precision": 0.6244855020091274,
+                    "macro_recall": 0.5546666666666668,
+                    "macro_f1": 0.5455125292249717
+                }
+            }
+        },
+        {
+            "run_name": "sup_umap_time_nn15_dim128",
+            "status": "success",
+            "run_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\embeddings\\ecg_v2\\sup_umap_time_nn15_dim128",
+            "assets_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\evaluations\\ecg_v2\\sup_umap_time_nn15_dim128",
+            "metrics_at_k": {
+                "k_1": {
+                    "accuracy": 0.4693333333333333,
+                    "macro_precision": 0.5896505602741802,
+                    "macro_recall": 0.4693333333333333,
+                    "macro_f1": 0.43118079304815415
+                },
+                "k_5": {
+                    "accuracy": 0.4706666666666667,
+                    "macro_precision": 0.5978862984194944,
+                    "macro_recall": 0.4706666666666666,
+                    "macro_f1": 0.4328645063446852
+                },
+                "k_10": {
+                    "accuracy": 0.4706666666666667,
+                    "macro_precision": 0.5978862984194944,
+                    "macro_recall": 0.4706666666666666,
+                    "macro_f1": 0.4328645063446852
+                }
+            }
+        },
+        {
+            "run_name": "sup_umap_time_nn15_dim64",
+            "status": "success",
+            "run_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\embeddings\\ecg_v2\\sup_umap_time_nn15_dim64",
+            "assets_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\evaluations\\ecg_v2\\sup_umap_time_nn15_dim64",
+            "metrics_at_k": {
+                "k_1": {
+                    "accuracy": 0.47733333333333333,
+                    "macro_precision": 0.6073899896045711,
+                    "macro_recall": 0.47733333333333333,
+                    "macro_f1": 0.4402224598693622
+                },
+                "k_5": {
+                    "accuracy": 0.47733333333333333,
+                    "macro_precision": 0.6073899896045711,
+                    "macro_recall": 0.47733333333333333,
+                    "macro_f1": 0.4402224598693622
+                },
+                "k_10": {
+                    "accuracy": 0.47733333333333333,
+                    "macro_precision": 0.6073899896045711,
+                    "macro_recall": 0.47733333333333333,
+                    "macro_f1": 0.4402224598693622
+                }
+            }
+        },
+        {
+            "run_name": "umap_frequency_nn15_dim128",
+            "status": "success",
+            "run_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\embeddings\\ecg_v2\\umap_frequency_nn15_dim128",
+            "assets_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\evaluations\\ecg_v2\\umap_frequency_nn15_dim128",
+            "metrics_at_k": {
+                "k_1": {
+                    "accuracy": 0.5893333333333334,
+                    "macro_precision": 0.6405635964541048,
+                    "macro_recall": 0.5893333333333334,
+                    "macro_f1": 0.5889445543104079
+                },
+                "k_5": {
+                    "accuracy": 0.5933333333333334,
+                    "macro_precision": 0.6437167670087578,
+                    "macro_recall": 0.5933333333333334,
+                    "macro_f1": 0.591372132217438
+                },
+                "k_10": {
+                    "accuracy": 0.5666666666666667,
+                    "macro_precision": 0.629384478449899,
+                    "macro_recall": 0.5666666666666668,
+                    "macro_f1": 0.5653892376606241
+                }
+            }
+        },
+        {
+            "run_name": "umap_frequency_nn15_dim64",
+            "status": "success",
+            "run_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\embeddings\\ecg_v2\\umap_frequency_nn15_dim64",
+            "assets_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\evaluations\\ecg_v2\\umap_frequency_nn15_dim64",
+            "metrics_at_k": {
+                "k_1": {
+                    "accuracy": 0.576,
+                    "macro_precision": 0.621194873997709,
+                    "macro_recall": 0.576,
+                    "macro_f1": 0.5794804249165305
+                },
+                "k_5": {
+                    "accuracy": 0.5653333333333334,
+                    "macro_precision": 0.6149947018691865,
+                    "macro_recall": 0.5653333333333334,
+                    "macro_f1": 0.564727511364466
+                },
+                "k_10": {
+                    "accuracy": 0.552,
+                    "macro_precision": 0.6141975830077248,
+                    "macro_recall": 0.552,
+                    "macro_f1": 0.5530947936526805
+                }
+            }
+        },
+        {
+            "run_name": "umap_mixed_nn15_dim128",
+            "status": "success",
+            "run_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\embeddings\\ecg_v2\\umap_mixed_nn15_dim128",
+            "assets_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\evaluations\\ecg_v2\\umap_mixed_nn15_dim128",
+            "metrics_at_k": {
+                "k_1": {
+                    "accuracy": 0.56,
+                    "macro_precision": 0.621951414671617,
+                    "macro_recall": 0.56,
+                    "macro_f1": 0.5591764585906428
+                },
+                "k_5": {
+                    "accuracy": 0.5653333333333334,
+                    "macro_precision": 0.6300523349436393,
+                    "macro_recall": 0.5653333333333334,
+                    "macro_f1": 0.5636926335613893
+                },
+                "k_10": {
+                    "accuracy": 0.548,
+                    "macro_precision": 0.627326541318537,
+                    "macro_recall": 0.548,
+                    "macro_f1": 0.5471443500847207
+                }
+            }
+        },
+        {
+            "run_name": "umap_mixed_nn15_dim64",
+            "status": "success",
+            "run_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\embeddings\\ecg_v2\\umap_mixed_nn15_dim64",
+            "assets_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\evaluations\\ecg_v2\\umap_mixed_nn15_dim64",
+            "metrics_at_k": {
+                "k_1": {
+                    "accuracy": 0.584,
+                    "macro_precision": 0.6347815466219989,
+                    "macro_recall": 0.584,
+                    "macro_f1": 0.5865684026372692
+                },
+                "k_5": {
+                    "accuracy": 0.5906666666666667,
+                    "macro_precision": 0.653830505684425,
+                    "macro_recall": 0.5906666666666666,
+                    "macro_f1": 0.5929839890245491
+                },
+                "k_10": {
+                    "accuracy": 0.568,
+                    "macro_precision": 0.6425468620856205,
+                    "macro_recall": 0.5680000000000001,
+                    "macro_f1": 0.5709405734964862
+                }
+            }
+        },
+        {
+            "run_name": "umap_time_nn15_dim128",
+            "status": "success",
+            "run_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\embeddings\\ecg_v2\\umap_time_nn15_dim128",
+            "assets_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\evaluations\\ecg_v2\\umap_time_nn15_dim128",
+            "metrics_at_k": {
+                "k_1": {
+                    "accuracy": 0.5386666666666666,
+                    "macro_precision": 0.6627470903827688,
+                    "macro_recall": 0.5386666666666666,
+                    "macro_f1": 0.5308981217334706
+                },
+                "k_5": {
+                    "accuracy": 0.5266666666666666,
+                    "macro_precision": 0.6637263710515653,
+                    "macro_recall": 0.5266666666666667,
+                    "macro_f1": 0.5145697762402295
+                },
+                "k_10": {
+                    "accuracy": 0.524,
+                    "macro_precision": 0.6640519170482693,
+                    "macro_recall": 0.524,
+                    "macro_f1": 0.5090405846194005
+                }
+            }
+        },
+        {
+            "run_name": "umap_time_nn15_dim64",
+            "status": "success",
+            "run_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\embeddings\\ecg_v2\\umap_time_nn15_dim64",
+            "assets_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\evaluations\\ecg_v2\\umap_time_nn15_dim64",
+            "metrics_at_k": {
+                "k_1": {
+                    "accuracy": 0.516,
+                    "macro_precision": 0.6297371080430688,
+                    "macro_recall": 0.516,
+                    "macro_f1": 0.5041786694022394
+                },
+                "k_5": {
+                    "accuracy": 0.512,
+                    "macro_precision": 0.6458986036734898,
+                    "macro_recall": 0.512,
+                    "macro_f1": 0.4973549157766996
+                },
+                "k_10": {
+                    "accuracy": 0.5066666666666667,
+                    "macro_precision": 0.6453304138916766,
+                    "macro_recall": 0.5066666666666667,
+                    "macro_f1": 0.4883838099107563
+                }
+            }
+        }
+    ]
+}

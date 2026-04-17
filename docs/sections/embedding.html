@@ -1,53 +1,94 @@
 <section id="embedding">
-  <h2>Embedding and Evaluation Pipeline</h2>
+  <h2>Embedding Architectures and Evaluation Pipeline</h2>
   <p>
-    The embedding stage is downstream of preprocessing. It consumes the already-saved
-    test and train splits, loads aligned shards, flattens each sample into one row of <code>X</code>, 
-    and fits the selected method on the training split only.
-
-
-  <h3>Implemented baseline</h3>
-  <p>
-    The first completed embedding baseline is <strong>Gaussian Random Projection</strong>. For the current pass,
-    it has been run on both time-domain and frequency-domain inputs at 64 and 128 projected dimensions.
+    After preprocessing, the saved train and test splits are passed through a unified embedding runner. Every run uses
+    the same benchmark inputs and the same retrieval evaluator. The only controlled changes are the input representation,
+    the embedding method, and the embedding dimension.
   </p>
 
   <div class="summary-grid">
     <div class="summary-card">
-      <span class="label">Completed runs</span>
-      <span class="value">4</span>
+      <span class="label">Methods</span>
+      <span class="value mono">3</span>
     </div>
     <div class="summary-card">
-      <span class="label">Representations run</span>
-      <span class="value">time, frequency</span>
+      <span class="label">Representations</span>
+      <span class="value">time, frequency, mixed</span>
     </div>
     <div class="summary-card">
-      <span class="label">Dimensions run</span>
+      <span class="label">Embedding dims</span>
       <span class="value mono">64, 128</span>
     </div>
     <div class="summary-card">
-      <span class="label">Deployed Method</span>
-      <span class="value">Gaussian Random Projection</span>
+      <span class="label">Total runs</span>
+      <span class="value mono">18</span>
+    </div>
+    <div class="summary-card">
+      <span class="label">Retrieval pool</span>
+      <span class="value">full train split</span>
+    </div>
+    <div class="summary-card">
+      <span class="label">Query split</span>
+      <span class="value">full test split</span>
     </div>
   </div>
 
-  <h3>Current execution flow</h3>
-  <ol>
-    <li>load the full train split for the selected representation</li>
-    <li>load the full test split for the same representation</li>
-    <li>fit the embedding method on train only</li>
-    <li>transform train and test into embeddings</li>
-    <li>save embeddings, labels and projection artifacts</li>
-    <li>evaluate retrieval using the saved embedding artifacts</li>
-  </ol>
+  <h3>Compared embedding families</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Method</th>
+        <th>Type</th>
+        <th>Input policy</th>
+        <th>Fit behavior</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Gaussian Random Projection</td>
+        <td>non-learning linear baseline</td>
+        <td>time, frequency, or concatenated mixed features</td>
+        <td>fit on train, project train and test into the same random subspace</td>
+      </tr>
+      <tr>
+        <td>UMAP</td>
+        <td>unsupervised manifold embedding</td>
+        <td>time, frequency, or mixed</td>
+        <td>fit on train only, transform test using the fitted manifold model</td>
+      </tr>
+      <tr>
+        <td>Supervised UMAP</td>
+        <td>label-aware manifold embedding</td>
+        <td>time, frequency, or mixed</td>
+        <td>fit on train with labels, transform test into the learned space</td>
+      </tr>
+    </tbody>
+  </table>
 
-  <h3>Current evaluation behavior</h3>
+  <h3>Representation design</h3>
   <ul>
-    <li>use train embeddings as the reference pool</li>
-    <li>use test embeddings as queries</li>
-    <li>retrieve top-K nearest train embeddings for each test query</li>
-    <li>assign the predicted label by majority vote over retrieved labels</li>
-    <li>report Accuracy@K, Recall@K, F1@K, and confusion matrices</li>
+    <li><strong>Time:</strong> flattened beat-centered waveform windows</li>
+    <li><strong>Frequency:</strong> flattened FFT magnitude-phase representation from the same events</li>
+    <li><strong>Mixed:</strong> direct concatenation of the aligned time and frequency feature blocks</li>
   </ul>
 
+  <h3>Execution policy</h3>
+  <p>
+    A single runner executes the full 3 × 3 × 2 matrix. This keeps the experiment symmetric: all methods read the same
+    train and test roots, use the same class mapping, follow the same naming convention, and write outputs to parallel
+    folders under <code>results/embeddings/ecg_v2</code>.
+  </p>
+
+  <h3>Retrieval evaluator</h3>
+  <p>
+    The evaluator uses train embeddings as the reference pool and test embeddings as queries. For each test query, it
+    retrieves the top-K nearest train embeddings under L2 distance with <code>K ∈ {1, 5, 10}</code>. The predicted
+    class is assigned by majority vote over the retrieved labels.
+  </p>
+
+  <ul>
+    <li>metrics reported: accuracy, macro precision, macro recall, and macro F1</li>
+    <li>artifacts saved: metrics JSON, predictions, top-K neighbors, and confusion matrices</li>
+    <li>all runs are evaluated with the same retrieval policy to keep comparisons directly interpretable</li>
+  </ul>
 </section>

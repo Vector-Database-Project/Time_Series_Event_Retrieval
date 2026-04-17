@@ -1,0 +1,31 @@
+{
+    "dataset_name": "ecg_v2",
+    "run_name": "grp_frequency_064",
+    "run_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\embeddings\\ecg_v2\\grp_frequency_064",
+    "assets_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\evaluations\\ecg_v2\\grp_frequency_064",
+    "metric": "l2",
+    "top_k": [
+        1,
+        5,
+        10
+    ],
+    "batch_size": 512,
+    "class_labels": [
+        0,
+        1,
+        2
+    ],
+    "run_config": {
+        "method": "GaussianRandomProjection",
+        "n_components": 64,
+        "random_state": 42,
+        "train_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\data\\ecg\\processed\\v2\\train",
+        "test_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\data\\ecg\\processed\\v2\\test",
+        "output_root": "C:\\Users\\aruns\\Documents\\Gatech\\Classes\\ML\\Time_Series_Event_Retrieval\\results\\embeddings\\ecg_v2\\grp_frequency_064",
+        "representation": "frequency",
+        "extract_policy": "custom_runner_shared_loader",
+        "retrieval_pool": "full_train",
+        "query_split": "full_test",
+        "fit_policy": "GRP_fit_on_full_train_transform_full_train_test"
+    }
+}
