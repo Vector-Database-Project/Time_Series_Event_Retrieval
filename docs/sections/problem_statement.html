@@ -1,0 +1,59 @@
+<section id="problem-statement">
+  <h2>Problem Statement</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Benchmark focus</th>
+        <th>Final study condition</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Primary comparison</td>
+        <td>Representation choice versus embedding method</td>
+      </tr>
+      <tr>
+        <td>Evaluation protocol</td>
+        <td>Common nearest-neighbor retrieval setting across all runs</td>
+      </tr>
+      <tr>
+        <td>Leakage control</td>
+        <td>Record-aware train/test split assignment</td>
+      </tr>
+      <tr>
+        <td>Sampling policy</td>
+        <td>Balanced within-split sampling</td>
+      </tr>
+      <tr>
+        <td>Completed method set</td>
+        <td>Gaussian Random Projection, UMAP, Supervised UMAP</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>
+    The central problem addressed in this project is to determine which combinations of preprocessing, signal
+    representation, and embedding method produce the most reliable retrieval neighborhoods for ECG beat events. More
+    specifically, the study asks whether retrieval quality in this benchmark is shaped more strongly by the input
+    representation itself than by the downstream embedding family applied to that representation. A fair comparison
+    requires that all methods be evaluated under the same retrieval protocol and on the same benchmark construction.
+  </p>
+
+  <p>
+    A primary requirement of the benchmark design is the avoidance of train-test leakage. If beats from the same source
+    record are distributed across both partitions, retrieval performance can be artificially inflated by record-specific
+    morphology rather than reflecting meaningful cross-record generalization. For that reason, the final benchmark uses
+    record-aware split assignment together with balanced within-split sampling, so that observed performance differences
+    can be interpreted as differences in representation and embedding behavior under a stricter evaluation setting.
+  </p>
+
+  <p>
+    The final experimental scope is intentionally limited to methods that could be executed consistently across the full
+    benchmark matrix within the available memory budget. Earlier in development, additional methods including
+    Neighborhood Components Analysis and Kernel PCA were considered, but these proved comparatively resource-intensive at
+    the feature dimensionality and dataset scale used in this pipeline. The completed comparison therefore focuses on
+    Gaussian Random Projection, UMAP, and Supervised UMAP as the stable basis for evaluating retrieval behavior in the
+    final leakage-aware benchmark.
+  </p>
+</section>

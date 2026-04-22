@@ -5,11 +5,13 @@ document.addEventListener("DOMContentLoaded", async () => {
   pageTitle.textContent = document.title;
 
   const sections = [
-    "overview",
+    "introduction",
+    "problem_statement",
     "data_processing",
     "event_walkthrough",
     "embedding",
     "results",
+    "conclusions",
     "contributions",
     "references"
   ];

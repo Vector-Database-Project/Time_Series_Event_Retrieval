@@ -1,0 +1,84 @@
+<section id="conclusions">
+  <h2>Conclusions</h2>
+
+  <div class="summary-grid">
+    <div class="summary-card">
+      <span class="label">Main finding</span>
+      <span class="value">representation mattered more than model complexity</span>
+    </div>
+    <div class="summary-card">
+      <span class="label">Strongest result</span>
+      <span class="value mono">grp_frequency_064</span>
+    </div>
+    <div class="summary-card">
+      <span class="label">Representation trend</span>
+      <span class="value">frequency &gt; mixed &gt; time</span>
+    </div>
+    <div class="summary-card">
+      <span class="label">Dimension trend</span>
+      <span class="value">64 often matched or exceeded 128</span>
+    </div>
+  </div>
+
+  <h3>Supported conclusions</h3>
+  <ul>
+    <li>Within the final leakage-aware benchmark, the strongest retrieval results are obtained from frequency-domain inputs rather than time-domain inputs.</li>
+    <li>The best overall method family in this setting is Gaussian Random Projection, not the learned UMAP variants.</li>
+    <li>The results do not support the claim that a more complex embedding model automatically improves retrieval quality for this benchmark.</li>
+    <li>The stronger conclusion is benchmark-specific, retrieval quality appears to depend more strongly on the chosen representation than on additional embedding complexity.</li>
+    <li>Larger embedding size does not provide a consistent advantage, since the 64-dimensional setting is frequently as strong as or stronger than 128 dimensions.</li>
+  </ul>
+
+  <h3>Possible explanations for the GRP result</h3>
+  <ul>
+    <li>A plausible explanation is that the frequency preprocessing already exposes useful class structure, so a simple linear projection is sufficient to preserve retrieval-relevant neighborhoods.</li>
+    <li>Gaussian Random Projection does not attempt to reshape the geometry aggressively. In this benchmark, that may help preserve distance relationships that are already useful for nearest-neighbor search.</li>
+    <li>UMAP and Supervised UMAP learn lower-dimensional manifolds from the training set, but the geometry they optimize is not identical to the final top-<code>K</code> Euclidean retrieval objective used for evaluation.</li>
+    <li>Under a stricter record-aware split, any method that depends more strongly on training-set neighborhood structure may be less able to benefit from source-specific regularities that do not transfer across records.</li>
+    <li>These points should be interpreted as plausible benchmark-level explanations rather than proven causal mechanisms.</li>
+  </ul>
+
+  <h3>Why frequency features may dominate</h3>
+  <ul>
+    <li>Frequency-domain representations may capture broader morphological structure in a more stable form than raw time-domain windows.</li>
+    <li>Compared with time-only inputs, spectral features may be less sensitive to small local alignment differences in the waveform, which can improve neighborhood consistency under retrieval.</li>
+    <li>The mixed representation improves over time-only inputs, but it does not surpass frequency alone, suggesting that adding more features does not automatically improve the geometry seen by the retrieval metric.</li>
+    <li>This pattern indicates that feature quality matters more than feature quantity in the present benchmark.</li>
+  </ul>
+
+  <h3>Evaluation dependence</h3>
+  <table class="metric-table">
+    <thead>
+      <tr>
+        <th>Benchmark component</th>
+        <th>Interpretive consequence</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Euclidean nearest-neighbor retrieval</td>
+        <td>The final comparison is tied to <code>L2</code> distance in the embedding space, which may favor methods that preserve linear distance structure more directly.</td>
+      </tr>
+      <tr>
+        <td>Top-<code>K</code> majority voting</td>
+        <td>Performance depends not only on single-neighbor accuracy but also on the local class composition of the retrieved neighborhood.</td>
+      </tr>
+      <tr>
+        <td>Macro-averaged metrics</td>
+        <td>The reported summaries emphasize class-balanced behavior rather than performance dominated by the largest class alone.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ul>
+    <li>For that reason, the observed advantage of GRP should be interpreted relative to this evaluation design rather than as a universal ranking of embedding methods.</li>
+    <li>A different distance function or retrieval rule could change the relative ordering of methods.</li>
+  </ul>
+
+  <div class="note-box">
+    These conclusions apply only to the present ECG retrieval benchmark, the coarse <code>N/S/V</code> label space, the
+    record-aware split, the tested time, frequency, and mixed representations, the 64- and 128-dimensional settings, and
+    the nearest-neighbor evaluation protocol used here. The section therefore presents a benchmark-specific interpretation,
+    not a general claim about all time-series retrieval problems.
+  </div>
+</section>

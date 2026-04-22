@@ -1,0 +1,46 @@
+<section id="introduction">
+  <h2>Introduction</h2>
+
+  <div class="summary-grid">
+    <div class="summary-card">
+      <span class="label">Benchmark domain</span>
+      <span class="value">ECG event retrieval</span>
+    </div>
+    <div class="summary-card">
+      <span class="label">Data source</span>
+      <span class="value">MIT-BIH Arrhythmia Database</span>
+    </div>
+    <div class="summary-card">
+      <span class="label">Event definition</span>
+      <span class="value">Fixed beat-centered windows</span>
+    </div>
+    <div class="summary-card">
+      <span class="label">Benchmark labels</span>
+      <span class="value mono">N / S / V</span>
+    </div>
+  </div>
+
+  <p>
+    Time-series event retrieval concerns whether short signal events can be represented such that similar events are
+    recovered as near neighbors in an embedding space. In this project, that question is examined using ECG beat events
+    derived from the MIT-BIH Arrhythmia Database, a widely used annotated benchmark for arrhythmia analysis. Beat-level
+    annotations are used to define a controlled retrieval setting in which retained endogenous beat symbols are collapsed
+    into a coarse three-class label space and represented as fixed beat-centered windows extracted from the source
+    records.
+  </p>
+
+  <p>
+    The motivation for this setting is both practical and methodological. ECG analysis remains important because reliable
+    interpretation of cardiac signals is necessary for recognizing rhythm abnormalities and organizing clinically
+    meaningful signal patterns. At the same time, retrieval quality may depend not only on the embedding method itself,
+    but also on the preprocessing policy and signal representation introduced before embedding. The benchmark is
+    therefore structured to support a direct comparison of representation choice and embedding behavior under a common
+    nearest-neighbor retrieval setting.
+  </p>
+
+  <p>
+    Rather than presenting the task as a single-model optimization problem, this report treats it as a controlled
+    benchmark for representation learning and retrieval evaluation. This framing makes it possible to study how
+    preprocessing decisions shape the neighborhoods ultimately recovered in the embedding space.
+  </p>
+</section>

@@ -1,94 +1,149 @@
-<section id="embedding">
-  <h2>Embedding Architectures and Evaluation Pipeline</h2>
-  <p>
-    After preprocessing, the saved train and test splits are passed through a unified embedding runner. Every run uses
-    the same benchmark inputs and the same retrieval evaluator. The only controlled changes are the input representation,
-    the embedding method, and the embedding dimension.
-  </p>
+<section id="embedding-evaluation">
+  <h2>Embedding Methods and Retrieval Evaluation</h2>
 
   <div class="summary-grid">
     <div class="summary-card">
-      <span class="label">Methods</span>
+      <span class="label">Embedding methods</span>
       <span class="value mono">3</span>
     </div>
     <div class="summary-card">
-      <span class="label">Representations</span>
+      <span class="label">Input representations</span>
       <span class="value">time, frequency, mixed</span>
     </div>
     <div class="summary-card">
-      <span class="label">Embedding dims</span>
+      <span class="label">Embedding dimensions</span>
       <span class="value mono">64, 128</span>
     </div>
     <div class="summary-card">
-      <span class="label">Total runs</span>
-      <span class="value mono">18</span>
-    </div>
-    <div class="summary-card">
-      <span class="label">Retrieval pool</span>
-      <span class="value">full train split</span>
-    </div>
-    <div class="summary-card">
-      <span class="label">Query split</span>
-      <span class="value">full test split</span>
+      <span class="label">Experimental matrix</span>
+      <span class="value mono">18 runs</span>
     </div>
   </div>
 
-  <h3>Compared embedding families</h3>
+  <p>
+    Following benchmark construction, each ECG beat event is mapped into a lower-dimensional feature space and evaluated
+    through nearest-neighbor retrieval. The experimental design varies three factors, embedding method, input
+    representation, and embedding dimension, while holding the benchmark split and downstream retrieval protocol fixed.
+    This structure allows differences in retrieval behavior to be interpreted as differences in representation and
+    embedding performance under a common evaluation setting.
+  </p>
+
+  <h3>Compared Methods and Input Representations</h3>
+
   <table>
     <thead>
       <tr>
         <th>Method</th>
-        <th>Type</th>
-        <th>Input policy</th>
-        <th>Fit behavior</th>
+        <th>Method class</th>
+        <th>Conceptual role in the benchmark</th>
       </tr>
     </thead>
     <tbody>
       <tr>
         <td>Gaussian Random Projection</td>
-        <td>non-learning linear baseline</td>
-        <td>time, frequency, or concatenated mixed features</td>
-        <td>fit on train, project train and test into the same random subspace</td>
+        <td>Linear baseline</td>
+        <td>
+          Projects each input into a lower-dimensional random subspace, providing a simple non-learning baseline for
+          testing whether class structure is already recoverable after preprocessing.
+        </td>
       </tr>
       <tr>
         <td>UMAP</td>
-        <td>unsupervised manifold embedding</td>
-        <td>time, frequency, or mixed</td>
-        <td>fit on train only, transform test using the fitted manifold model</td>
+        <td>Unsupervised manifold embedding</td>
+        <td>
+          Learns a low-dimensional representation by preserving neighborhood structure in the training data, allowing
+          retrieval quality to reflect geometry induced without label guidance.
+        </td>
       </tr>
       <tr>
         <td>Supervised UMAP</td>
-        <td>label-aware manifold embedding</td>
-        <td>time, frequency, or mixed</td>
-        <td>fit on train with labels, transform test into the learned space</td>
+        <td>Label-aware manifold embedding</td>
+        <td>
+          Incorporates class information during fitting so that events from the same class are encouraged to occupy more
+          coherent neighborhoods in the learned space.
+        </td>
       </tr>
     </tbody>
   </table>
 
-  <h3>Representation design</h3>
-  <ul>
-    <li><strong>Time:</strong> flattened beat-centered waveform windows</li>
-    <li><strong>Frequency:</strong> flattened FFT magnitude-phase representation from the same events</li>
-    <li><strong>Mixed:</strong> direct concatenation of the aligned time and frequency feature blocks</li>
-  </ul>
-
-  <h3>Execution policy</h3>
   <p>
-    A single runner executes the full 3 × 3 × 2 matrix. This keeps the experiment symmetric: all methods read the same
-    train and test roots, use the same class mapping, follow the same naming convention, and write outputs to parallel
-    folders under <code>results/embeddings/ecg_v2</code>.
+    Gaussian Random Projection serves as a useful baseline because it does not attempt to learn task-specific geometry.
+    If retrieval quality remains competitive under random projection, this suggests that the preprocessing and input
+    representation already expose substantial class structure. UMAP and Supervised UMAP instead learn lower-dimensional
+    manifolds from the training data, with the latter introducing label information to encourage stronger within-class
+    grouping.
   </p>
 
-  <h3>Retrieval evaluator</h3>
   <p>
-    The evaluator uses train embeddings as the reference pool and test embeddings as queries. For each test query, it
-    retrieves the top-K nearest train embeddings under L2 distance with <code>K ∈ {1, 5, 10}</code>. The predicted
-    class is assigned by majority vote over the retrieved labels.
+    Three input representations are compared. The <strong>time</strong> representation consists of flattened
+    beat-centered waveform windows. The <strong>frequency</strong> representation is derived from the same events in the
+    Fourier domain using aligned magnitude-phase features. The <strong>mixed</strong> representation is formed by direct
+    concatenation of the aligned time and frequency feature blocks. For each method, embeddings are produced at
+    dimensions <span class="mono">64</span> and <span class="mono">128</span>, yielding a full
+    <span class="mono">3 × 3 × 2</span> comparison matrix.
   </p>
 
-  <ul>
-    <li>metrics reported: accuracy, macro precision, macro recall, and macro F1</li>
-    <li>artifacts saved: metrics JSON, predictions, top-K neighbors, and confusion matrices</li>
-    <li>all runs are evaluated with the same retrieval policy to keep comparisons directly interpretable</li>
-  </ul>
+  <h3>Retrieval Protocol and Metrics</h3>
+
+  <p>
+    Retrieval is performed in the learned embedding space using the train split as the reference pool and the test split
+    as the query set. For each test embedding, nearest neighbors are identified from the train embeddings under
+    Euclidean distance, <code>d(q, x) = ||q - x||<sub>2</sub></code>. The evaluation reports results at
+    <span class="mono">K = 1, 5, 10</span>. For each query, the predicted class is determined by majority vote among
+    the labels of the top-<span class="mono">K</span> retrieved neighbors.
+  </p>
+
+  <p>
+    This protocol evaluates whether the learned embedding places clinically similar beat events in local neighborhoods.
+    A strong result therefore indicates not only separability in the global feature space, but also local consistency in
+    the class structure recovered by nearest-neighbor search.
+  </p>
+
+  <table class="metric-table">
+    <thead>
+      <tr>
+        <th>Metric</th>
+        <th>Definition</th>
+        <th>Interpretation in this benchmark</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Accuracy</td>
+        <td><code>(number of correct predictions) / (total number of queries)</code></td>
+        <td>Measures overall retrieval-based classification correctness across the test set.</td>
+      </tr>
+      <tr>
+        <td>Precision</td>
+        <td><code>TP / (TP + FP)</code></td>
+        <td>Measures how reliable the predicted class assignments are when a class is selected.</td>
+      </tr>
+      <tr>
+        <td>Recall</td>
+        <td><code>TP / (TP + FN)</code></td>
+        <td>Measures how well the retrieval process recovers queries belonging to each class.</td>
+      </tr>
+      <tr>
+        <td>F1 score</td>
+        <td><code>2PR / (P + R)</code></td>
+        <td>Balances precision and recall, making it useful when both false positives and false negatives matter.</td>
+      </tr>
+      <tr>
+        <td>Macro averaging</td>
+        <td><code>(1 / C) Σ metric<sub>c</sub></code> over classes</td>
+        <td>Weights all classes equally, preventing majority classes from dominating the reported summary.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="note-box">
+    In this benchmark, macro precision, macro recall, and macro F1 are especially informative because they emphasize
+    class-balanced retrieval behavior rather than performance dominated by the most frequent class alone.
+  </div>
+
+  <p>
+    Together, this evaluation design provides a controlled basis for comparing whether retrieval quality is driven more
+    strongly by the form of the input representation or by the embedding family used to organize the resulting event
+    space.
+  </p>
 </section>

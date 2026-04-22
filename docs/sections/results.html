@@ -122,14 +122,6 @@
     from the 64-dimensional mixed setting. Larger embeddings therefore do not provide a consistent advantage here.
   </p>
 
-  <h3>Neighborhood behavior across K</h3>
-  <p>
-    The effect of increasing K depends on the quality of the embedding neighborhood. For the strongest frequency-based
-    GRP run, performance improves steadily from K = 1 to K = 10, indicating stable class-consistent neighborhoods. By
-    contrast, several time-domain runs degrade as K increases, suggesting that their local neighborhoods become less pure
-    when more neighbors are considered.
-  </p>
-
   <h3>Selected confusion matrices</h3>
   <p>
     The following confusion matrices are sufficient to illustrate the key behaviors of the benchmark without bloating the
@@ -180,20 +172,4 @@
       <code>sup_umap_time_nn15_dim128</code> at <code>K = 10</code>, illustrating the weakest supervised time-domain case.
     </figcaption>
   </figure>
-
-  <h3>Interpretation</h3>
-  <p>
-    The final result of the benchmark is not that a more complex embedding model automatically improves retrieval.
-    Instead, the stronger result is that representation choice matters more than model complexity in the tested setup.
-    Frequency-domain preprocessing is the strongest of the examined views, and a simple random projection baseline
-    preserves retrieval-relevant structure better than the UMAP-based alternatives under the current leakage-aware split.
-  </p>
-
-  <h3>Scope and limitation</h3>
-  <p>
-    These conclusions apply to the current ECG benchmark only: the coarse <code>N/S/V</code> label space, the balanced
-    record-aware split, the tested time/frequency/mixed representations, the 64 and 128 dimensional settings, and the
-    nearest-neighbor retrieval evaluator used here. The report therefore presents a controlled benchmark finding rather
-    than a universal claim about all time-series retrieval problems.
-  </p>
 </section>
