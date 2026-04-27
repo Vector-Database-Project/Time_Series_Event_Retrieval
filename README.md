@@ -61,7 +61,7 @@ notebooks/
 This project is being developed as part of a Machine Learning course project.
 
 ## Status
-🚧 Work in progress — initial repository setup and pipeline design.
+Completed
 
 ## Project Environment
 
@@ -124,3 +124,8 @@ With `N = 361` and `fs = 360 Hz`, the one-sided FFT uses:
 - frequency resolution `Δf = fs / N = 360 / 361 ≈ 0.997 Hz/bin`
 
 This gives an interpretable frequency axis across all extracted ECG windows.
+
+```
+Note:
+All the details of particulars regarding the project have been explained in satifactory detail in various markdown files in the repository, where relevent.
+```
