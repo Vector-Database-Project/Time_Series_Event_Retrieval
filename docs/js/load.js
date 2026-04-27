@@ -12,7 +12,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     "embedding",
     "results",
     "conclusions",
-    "contributions",
     "references"
   ];
 
